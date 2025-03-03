@@ -47,8 +47,8 @@ const ResearchModes = ({ onSelectMode, selectedMode }: ResearchModesProps) => {
           onClick={() => onSelectMode(mode)}
           className={`flex items-center px-4 py-2 rounded-full research-mode-transition ${
             selectedMode?.id === mode.id 
-              ? 'bg-blue-600 text-white' 
-              : 'bg-transparent text-gray-400 hover:text-gray-200 hover:bg-gray-800/60'
+              ? 'bg-grok-selected text-white' 
+              : 'bg-transparent text-grok-muted-foreground hover:text-white'
           }`}
           title={mode.description}
         >
