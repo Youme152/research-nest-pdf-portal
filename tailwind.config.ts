@@ -53,15 +53,15 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				grok: {
-					DEFAULT: '#FFFFFF',
-					foreground: '#333333',
-					muted: '#F5F5F5',
-					'muted-foreground': '#666666',
-					accent: '#F0F0F0',
-					border: '#E0E0E0',
-					input: '#F0F0F0',
-					search: '#F5F5F5',
-					selected: 'rgba(0, 0, 0, 0.05)'
+					DEFAULT: '#1A1F2C',
+					foreground: '#FFFFFF',
+					muted: '#2A2F3C',
+					'muted-foreground': '#A0A0B0',
+					accent: '#2A2F3C',
+					border: '#333844',
+					input: '#2A2F3C',
+					search: '#2A2F3C',
+					selected: 'rgba(255, 255, 255, 0.1)'
 				}
 			},
 			borderRadius: {
