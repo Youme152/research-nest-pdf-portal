@@ -63,10 +63,10 @@ const Index = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchProgress, setSearchProgress] = useState(0);
   const [selectedMode, setSelectedMode] = useState<ResearchMode>({
-    id: 'deep-search',
-    name: 'DeepSearch',
-    icon: 'Search',
-    description: 'In-depth analysis of specific topics with PDF results'
+    id: 'think',
+    name: 'Think',
+    icon: 'Brain',
+    description: 'Complex problem solving with step-by-step reasoning'
   });
   const [pdfResults, setPdfResults] = useState<PDFDocument[]>([]);
   const [selectedPDF, setSelectedPDF] = useState<PDFDocument | null>(null);
@@ -115,10 +115,25 @@ const Index = () => {
     setSelectedPDF(null);
     setSearchProgress(0);
     
-    if (mode === 'deep-search') {
+    if (mode === 'think') {
       toast({
-        title: "Deep Research",
-        description: "Analyzing the most relevant information...",
+        title: "Thinking...",
+        description: "Processing your question step by step...",
+      });
+    } else if (mode === 'analyze') {
+      toast({
+        title: "Analyzing...",
+        description: "Examining data and patterns...",
+      });
+    } else if (mode === 'create-images') {
+      toast({
+        title: "Creating Images",
+        description: "Generating visual content...",
+      });
+    } else if (mode === 'code') {
+      toast({
+        title: "Coding",
+        description: "Writing and analyzing code...",
       });
     }
     
@@ -136,7 +151,7 @@ const Index = () => {
         setMessages(prev => [...prev, response]);
         setIsSearching(false);
         
-        if (mode === 'deep-search') {
+        if (mode === 'think') {
           setPdfResults(MOCK_PDFS);
         }
       }, 500);
@@ -145,14 +160,17 @@ const Index = () => {
 
   const generateMockResponse = (query: string, mode: string) => {
     switch (mode) {
-      case 'deep-search':
-        return `Based on my in-depth research on "${query}", I've found several relevant academic papers. These papers provide comprehensive information on your query, including recent developments, methodologies, and key findings. I've attached the most relevant documents below for your reference.`;
-      
       case 'think':
         return `Let me think through "${query}" step by step:\n\n1. First, we need to understand the core concepts involved.\n2. The main factors to consider are X, Y, and Z.\n3. Analyzing the relationships between these factors...\n4. Based on this analysis, we can conclude that...`;
       
-      case 'research':
-        return `Here's what I found about "${query}":\n\nAccording to recent studies, this topic has gained significant attention in the field. Researchers have identified several key aspects that are worth noting...`;
+      case 'analyze':
+        return `Here's my analysis of "${query}":\n\nThe data shows three main trends:\n1. Increasing adoption in sector A (27% YoY)\n2. Declining costs across the industry (-12%)\n3. Emerging markets showing strongest growth potential\n\nThese patterns suggest that...`;
+      
+      case 'create-images':
+        return `I've created an image based on "${query}". Here it is! [Note: In a real implementation, this would display the generated image]`;
+      
+      case 'code':
+        return `Here's some code for "${query}":\n\n\`\`\`javascript\n// Function to calculate the result\nfunction calculateResult(data) {\n  const result = data.map(item => {\n    return item.value * 2;\n  });\n  return result.reduce((sum, val) => sum + val, 0);\n}\n\`\`\`\n\nThis code takes an array of data objects, doubles each value, and then calculates the sum.`;
       
       default:
         return `Here's information about "${query}". Let me know if you'd like to explore any specific aspect in more detail.`;
@@ -186,7 +204,10 @@ const Index = () => {
             <div className="w-full max-w-3xl mt-6 px-4 animate-fade-in">
               <div className="flex items-center justify-between mb-2">
                 <p className="text-sm font-medium text-grok-muted-foreground">
-                  {selectedMode.name === 'DeepSearch' ? 'Searching research databases...' : 'Analyzing information...'}
+                  {selectedMode.name === 'Think' ? 'Thinking...' : 
+                   selectedMode.name === 'Analyze' ? 'Analyzing data...' :
+                   selectedMode.name === 'Create images' ? 'Generating images...' : 
+                   'Processing...'}
                 </p>
                 <span className="text-sm text-grok-muted-foreground">{Math.round(searchProgress)}%</span>
               </div>
