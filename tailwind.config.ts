@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -54,15 +53,15 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				grok: {
-					DEFAULT: '#131314',
-					foreground: '#FFFFFF',
-					muted: '#1E1E1F',
-					'muted-foreground': '#A1A1A1',
-					accent: '#2A2A2B',
-					border: '#333333',
-					input: '#2A2A2B',
-					search: '#222222',
-					selected: 'rgba(255, 255, 255, 0.1)'
+					DEFAULT: '#FFFFFF',
+					foreground: '#333333',
+					muted: '#F5F5F5',
+					'muted-foreground': '#666666',
+					accent: '#F0F0F0',
+					border: '#E0E0E0',
+					input: '#F0F0F0',
+					search: '#F5F5F5',
+					selected: 'rgba(0, 0, 0, 0.05)'
 				}
 			},
 			borderRadius: {

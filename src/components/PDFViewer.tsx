@@ -30,7 +30,7 @@ const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
   // For now, we'll simulate it with placeholder content
   const getPageContent = () => {
     return (
-      <div className="prose prose-invert max-w-none">
+      <div className="prose max-w-none">
         <h2>Page {currentPage} of PDF Content</h2>
         <p>
           This is a simulated view of page {currentPage} from the document titled "{document.title}".
@@ -51,11 +51,11 @@ const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
 
   return (
     <div className="w-full max-w-4xl mx-auto my-6 pdf-appear">
-      <Card className="bg-grok-muted border-grok-border overflow-hidden">
-        <div className="flex items-center justify-between p-4 border-b border-grok-border">
+      <Card className="bg-white border-gray-200 overflow-hidden shadow-md">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200">
           <div className="flex items-center">
-            <FileText className="h-5 w-5 mr-2 text-blue-400" />
-            <h3 className="font-semibold truncate">{document.title}</h3>
+            <FileText className="h-5 w-5 mr-2 text-blue-600" />
+            <h3 className="font-semibold truncate text-gray-800">{document.title}</h3>
           </div>
           <div className="flex items-center space-x-2">
             <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => window.open(document.url, '_blank')}>
@@ -70,11 +70,11 @@ const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
           </div>
         </div>
         
-        <CardContent className="p-6 min-h-[400px]">
+        <CardContent className="p-6 min-h-[400px] bg-white">
           {getPageContent()}
         </CardContent>
         
-        <div className="flex items-center justify-between p-4 border-t border-grok-border">
+        <div className="flex items-center justify-between p-4 border-t border-gray-200 bg-gray-50">
           <Button 
             variant="ghost" 
             size="sm" 
@@ -84,7 +84,7 @@ const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
             <ChevronLeft className="h-4 w-4 mr-1" /> Previous
           </Button>
           
-          <span className="text-sm text-grok-muted-foreground">
+          <span className="text-sm text-gray-600">
             Page {currentPage} of {document.pages}
           </span>
           
