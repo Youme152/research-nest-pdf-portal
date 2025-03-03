@@ -19,7 +19,7 @@ const Header = () => {
           <Menu className="h-5 w-5" />
         </Button>
         <h1 className="text-xl font-semibold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">
-          ORA -1
+          ResearchNest
         </h1>
       </div>
 

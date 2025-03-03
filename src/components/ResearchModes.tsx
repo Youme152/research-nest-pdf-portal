@@ -1,5 +1,5 @@
 
-import { Brain, BarChart2, Image, Code } from 'lucide-react';
+import { Search, Brain, FileSearch, BarChart2, Image, Code } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { ResearchMode } from '@/lib/types';
 
@@ -9,6 +9,18 @@ interface ResearchModesProps {
 }
 
 const RESEARCH_MODES: ResearchMode[] = [
+  {
+    id: 'research',
+    name: 'Research',
+    icon: 'FileSearch',
+    description: 'General information lookup with cited sources'
+  },
+  {
+    id: 'deep-search',
+    name: 'DeepSearch',
+    icon: 'Search',
+    description: 'In-depth analysis of specific topics with PDF results'
+  },
   {
     id: 'think',
     name: 'Think',
@@ -37,11 +49,13 @@ const RESEARCH_MODES: ResearchMode[] = [
 
 const getIcon = (iconName: string) => {
   switch (iconName) {
+    case 'FileSearch': return <FileSearch className="h-5 w-5" />;
+    case 'Search': return <Search className="h-5 w-5" />;
     case 'Brain': return <Brain className="h-5 w-5" />;
     case 'BarChart2': return <BarChart2 className="h-5 w-5" />;
     case 'Image': return <Image className="h-5 w-5" />;
     case 'Code': return <Code className="h-5 w-5" />;
-    default: return <Brain className="h-5 w-5" />;
+    default: return <Search className="h-5 w-5" />;
   }
 };
 
