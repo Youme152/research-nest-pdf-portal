@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import SearchBar from '@/components/SearchBar';
@@ -6,8 +5,9 @@ import ResearchModes from '@/components/ResearchModes';
 import Chat from '@/components/Chat';
 import { Message, ResearchMode, PDFDocument } from '@/lib/types';
 import { v4 as uuidv4 } from 'uuid';
+import { Progress } from '@/components/ui/progress';
+import { toast } from '@/hooks/use-toast';
 
-// Mock PDF documents for demonstration
 const MOCK_PDFS: PDFDocument[] = [
   {
     id: '1',
@@ -61,6 +61,7 @@ const WELCOME_MESSAGE: Message = {
 const Index = () => {
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
   const [isSearching, setIsSearching] = useState(false);
+  const [searchProgress, setSearchProgress] = useState(0);
   const [selectedMode, setSelectedMode] = useState<ResearchMode>({
     id: 'deep-search',
     name: 'DeepSearch',
@@ -72,7 +73,6 @@ const Index = () => {
   const [greeting, setGreeting] = useState('Good evening');
 
   useEffect(() => {
-    // Update greeting based on time of day
     const hour = new Date().getHours();
     if (hour >= 5 && hour < 12) {
       setGreeting('Good morning');
@@ -83,8 +83,25 @@ const Index = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (isSearching) {
+      const interval = setInterval(() => {
+        setSearchProgress(prev => {
+          if (prev >= 95) {
+            clearInterval(interval);
+            return prev;
+          }
+          return prev + Math.random() * 10;
+        });
+      }, 300);
+      
+      return () => clearInterval(interval);
+    } else {
+      setSearchProgress(0);
+    }
+  }, [isSearching]);
+
   const handleSearch = async (query: string, mode: string) => {
-    // Add user message
     const userMessage: Message = {
       id: uuidv4(),
       content: query,
@@ -93,31 +110,39 @@ const Index = () => {
     };
     setMessages([...messages, userMessage]);
     
-    // Simulate loading
     setIsSearching(true);
     setPdfResults([]);
     setSelectedPDF(null);
+    setSearchProgress(0);
     
-    // Simulate response delay
+    if (mode === 'deep-search') {
+      toast({
+        title: "Deep Research",
+        description: "Analyzing the most relevant information...",
+      });
+    }
+    
     setTimeout(() => {
-      const response: Message = {
-        id: uuidv4(),
-        content: generateMockResponse(query, mode),
-        role: 'assistant',
-        timestamp: new Date()
-      };
+      setSearchProgress(100);
       
-      setMessages(prev => [...prev, response]);
-      setIsSearching(false);
-      
-      // Add PDF results for DeepSearch mode
-      if (mode === 'deep-search') {
-        setPdfResults(MOCK_PDFS);
-      }
+      setTimeout(() => {
+        const response: Message = {
+          id: uuidv4(),
+          content: generateMockResponse(query, mode),
+          role: 'assistant',
+          timestamp: new Date()
+        };
+        
+        setMessages(prev => [...prev, response]);
+        setIsSearching(false);
+        
+        if (mode === 'deep-search') {
+          setPdfResults(MOCK_PDFS);
+        }
+      }, 500);
     }, 1500);
   };
-  
-  // Generate a mock response based on the query and mode
+
   const generateMockResponse = (query: string, mode: string) => {
     switch (mode) {
       case 'deep-search':
@@ -133,7 +158,7 @@ const Index = () => {
         return `Here's information about "${query}". Let me know if you'd like to explore any specific aspect in more detail.`;
     }
   };
-  
+
   return (
     <div className="min-h-screen flex flex-col bg-grok text-grok-foreground">
       <Header />
@@ -157,8 +182,20 @@ const Index = () => {
             selectedMode={selectedMode}
           />
           
+          {isSearching && (
+            <div className="w-full max-w-3xl mt-6 px-4 animate-fade-in">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-sm font-medium text-grok-muted-foreground">
+                  {selectedMode.name === 'DeepSearch' ? 'Searching research databases...' : 'Analyzing information...'}
+                </p>
+                <span className="text-sm text-grok-muted-foreground">{Math.round(searchProgress)}%</span>
+              </div>
+              <Progress value={searchProgress} className="h-1 bg-grok-border" />
+            </div>
+          )}
+          
           <Chat 
-            messages={messages.slice(messages.length > 1 ? 1 : 0)} // Remove welcome message after search
+            messages={messages.slice(messages.length > 1 ? 1 : 0)}
             pdfResults={pdfResults}
             isLoading={isSearching}
             selectedPDF={selectedPDF}
