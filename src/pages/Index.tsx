@@ -58,6 +58,8 @@ const WELCOME_MESSAGE: Message = {
   timestamp: new Date()
 };
 
+const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || '/api/research';
+
 const Index = () => {
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
   const [isSearching, setIsSearching] = useState(false);
@@ -71,9 +73,6 @@ const Index = () => {
   const [pdfResults, setPdfResults] = useState<PDFDocument[]>([]);
   const [selectedPDF, setSelectedPDF] = useState<PDFDocument | null>(null);
   const [greeting, setGreeting] = useState('Good evening');
-  const [n8nWebhookUrl, setN8nWebhookUrl] = useState(() => {
-    return localStorage.getItem('n8nWebhookUrl') || '';
-  });
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -126,76 +125,54 @@ const Index = () => {
     }
 
     try {
-      if (n8nWebhookUrl) {
-        let progressInterval = setInterval(() => {
-          setSearchProgress(prev => Math.min(prev + 5, 90));
-        }, 300);
+      let progressInterval = setInterval(() => {
+        setSearchProgress(prev => Math.min(prev + 5, 90));
+      }, 300);
 
-        const n8nResponse = await fetch(n8nWebhookUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            query,
-            mode,
-          }),
-        });
+      const apiResponse = await fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          query,
+          mode,
+        }),
+      });
 
-        clearInterval(progressInterval);
-        setSearchProgress(95);
+      clearInterval(progressInterval);
+      setSearchProgress(95);
 
-        if (n8nResponse.ok) {
-          const data = await n8nResponse.json();
-          
-          setTimeout(() => {
-            setSearchProgress(100);
-            
-            const response: Message = {
-              id: uuidv4(),
-              content: data.content || "I couldn't find specific information on that topic.",
-              role: 'assistant',
-              timestamp: new Date()
-            };
-            
-            setMessages(prev => [...prev, response]);
-            setIsSearching(false);
-            
-            if (mode === 'deep-search' && data.documents) {
-              setPdfResults(data.documents);
-            } else if (mode === 'deep-search') {
-              setPdfResults(MOCK_PDFS);
-            }
-          }, 500);
-        } else {
-          throw new Error('Failed to get response from N8N');
-        }
-      } else {
+      if (apiResponse.ok) {
+        const data = await apiResponse.json();
+        
         setTimeout(() => {
           setSearchProgress(100);
           
-          setTimeout(() => {
-            const response: Message = {
-              id: uuidv4(),
-              content: generateMockResponse(query, mode),
-              role: 'assistant',
-              timestamp: new Date()
-            };
-            
-            setMessages(prev => [...prev, response]);
-            setIsSearching(false);
-            
-            if (mode === 'deep-search') {
-              setPdfResults(MOCK_PDFS);
-            }
-          }, 500);
-        }, 1500);
+          const response: Message = {
+            id: uuidv4(),
+            content: data.content || "I couldn't find specific information on that topic.",
+            role: 'assistant',
+            timestamp: new Date()
+          };
+          
+          setMessages(prev => [...prev, response]);
+          setIsSearching(false);
+          
+          if (mode === 'deep-search' && data.documents) {
+            setPdfResults(data.documents);
+          } else if (mode === 'deep-search') {
+            setPdfResults(MOCK_PDFS);
+          }
+        }, 500);
+      } else {
+        throw new Error('Failed to get response from API');
       }
     } catch (error) {
-      console.error('Error fetching data from N8N:', error);
+      console.error('Error fetching data:', error);
       toast({
         title: "Connection Error",
-        description: "Couldn't connect to your N8N workflow. Using fallback data instead.",
+        description: "Couldn't connect to the research API. Using fallback data instead.",
         variant: "destructive",
       });
       
@@ -237,12 +214,6 @@ const Index = () => {
     }
   };
 
-  const handleN8nUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const url = e.target.value;
-    setN8nWebhookUrl(url);
-    localStorage.setItem('n8nWebhookUrl', url);
-  };
-
   return (
     <div className="min-h-screen flex flex-col bg-grok text-grok-foreground">
       <Header />
@@ -255,23 +226,6 @@ const Index = () => {
               <p className="text-xl text-grok-muted-foreground">How can I help you today?</p>
             </div>
           )}
-          
-          <div className="w-full max-w-3xl mx-auto mb-4 px-4">
-            <label htmlFor="n8n-webhook" className="block text-sm font-medium text-grok-muted-foreground mb-1">
-              N8N Webhook URL (Optional)
-            </label>
-            <input
-              id="n8n-webhook"
-              type="url"
-              value={n8nWebhookUrl}
-              onChange={handleN8nUrlChange}
-              placeholder="https://your-n8n-instance.com/webhook/path"
-              className="w-full px-4 py-2 rounded-md bg-grok-accent text-grok-foreground border border-grok-border"
-            />
-            <p className="mt-1 text-xs text-grok-muted-foreground">
-              Enter your N8N webhook URL to connect this interface with your OpenAI workflow
-            </p>
-          </div>
           
           <SearchBar 
             onSearch={handleSearch} 
