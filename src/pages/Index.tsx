@@ -59,6 +59,7 @@ const WELCOME_MESSAGE: Message = {
 };
 
 const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || '/api/research';
+const SUPABASE_ENDPOINT = "https://zwwofphqttojlgoefhzz.functions.supabase.co/webhook-receiver";
 
 const Index = () => {
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
@@ -129,16 +130,33 @@ const Index = () => {
         setSearchProgress(prev => Math.min(prev + 5, 90));
       }, 300);
 
-      const apiResponse = await fetch(API_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          query,
-          mode,
-        }),
-      });
+      let apiResponse;
+      try {
+        apiResponse = await fetch(API_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            query,
+            mode,
+          }),
+        });
+      } catch (error) {
+        console.log("Primary API unavailable, falling back to Supabase:", error);
+        apiResponse = await fetch(SUPABASE_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-webhook-source': 'research-ui',
+          },
+          body: JSON.stringify({
+            query,
+            mode,
+            requestTime: new Date().toISOString()
+          }),
+        });
+      }
 
       clearInterval(progressInterval);
       setSearchProgress(95);

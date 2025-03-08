@@ -154,6 +154,192 @@ export type Database = {
         }
         Relationships: []
       }
+      "Brookhaven RPP": {
+        Row: {
+          channelId: string | null
+          channelName: string | null
+          channelUrl: string | null
+          channelUsername: string | null
+          comments: string | null
+          commentsCount: number | null
+          commentsTurnedOff: boolean | null
+          date: string | null
+          "descriptionLinks/0/text": string | null
+          "descriptionLinks/0/url": string | null
+          "descriptionLinks/1/text": string | null
+          "descriptionLinks/1/url": string | null
+          "descriptionLinks/10/text": string | null
+          "descriptionLinks/10/url": string | null
+          "descriptionLinks/11/text": string | null
+          "descriptionLinks/11/url": string | null
+          "descriptionLinks/12/text": string | null
+          "descriptionLinks/12/url": string | null
+          "descriptionLinks/13/text": string | null
+          "descriptionLinks/13/url": string | null
+          "descriptionLinks/14/text": string | null
+          "descriptionLinks/14/url": string | null
+          "descriptionLinks/15/text": string | null
+          "descriptionLinks/15/url": string | null
+          "descriptionLinks/16/text": string | null
+          "descriptionLinks/16/url": string | null
+          "descriptionLinks/17/text": string | null
+          "descriptionLinks/17/url": string | null
+          "descriptionLinks/18/text": string | null
+          "descriptionLinks/18/url": string | null
+          "descriptionLinks/19/text": string | null
+          "descriptionLinks/19/url": string | null
+          "descriptionLinks/2/text": string | null
+          "descriptionLinks/2/url": string | null
+          "descriptionLinks/20/text": string | null
+          "descriptionLinks/20/url": string | null
+          "descriptionLinks/21/text": string | null
+          "descriptionLinks/21/url": string | null
+          "descriptionLinks/22/text": string | null
+          "descriptionLinks/22/url": string | null
+          "descriptionLinks/23/text": string | null
+          "descriptionLinks/23/url": string | null
+          "descriptionLinks/24/text": string | null
+          "descriptionLinks/24/url": string | null
+          "descriptionLinks/25/text": string | null
+          "descriptionLinks/3/text": string | null
+          "descriptionLinks/3/url": string | null
+          "descriptionLinks/4/text": string | null
+          "descriptionLinks/4/url": string | null
+          "descriptionLinks/5/text": string | null
+          "descriptionLinks/5/url": string | null
+          "descriptionLinks/6/text": string | null
+          "descriptionLinks/6/url": string | null
+          "descriptionLinks/7/text": string | null
+          "descriptionLinks/7/url": string | null
+          "descriptionLinks/8/text": string | null
+          "descriptionLinks/8/url": string | null
+          "descriptionLinks/9/text": string | null
+          "descriptionLinks/9/url": string | null
+        }
+        Insert: {
+          channelId?: string | null
+          channelName?: string | null
+          channelUrl?: string | null
+          channelUsername?: string | null
+          comments?: string | null
+          commentsCount?: number | null
+          commentsTurnedOff?: boolean | null
+          date?: string | null
+          "descriptionLinks/0/text"?: string | null
+          "descriptionLinks/0/url"?: string | null
+          "descriptionLinks/1/text"?: string | null
+          "descriptionLinks/1/url"?: string | null
+          "descriptionLinks/10/text"?: string | null
+          "descriptionLinks/10/url"?: string | null
+          "descriptionLinks/11/text"?: string | null
+          "descriptionLinks/11/url"?: string | null
+          "descriptionLinks/12/text"?: string | null
+          "descriptionLinks/12/url"?: string | null
+          "descriptionLinks/13/text"?: string | null
+          "descriptionLinks/13/url"?: string | null
+          "descriptionLinks/14/text"?: string | null
+          "descriptionLinks/14/url"?: string | null
+          "descriptionLinks/15/text"?: string | null
+          "descriptionLinks/15/url"?: string | null
+          "descriptionLinks/16/text"?: string | null
+          "descriptionLinks/16/url"?: string | null
+          "descriptionLinks/17/text"?: string | null
+          "descriptionLinks/17/url"?: string | null
+          "descriptionLinks/18/text"?: string | null
+          "descriptionLinks/18/url"?: string | null
+          "descriptionLinks/19/text"?: string | null
+          "descriptionLinks/19/url"?: string | null
+          "descriptionLinks/2/text"?: string | null
+          "descriptionLinks/2/url"?: string | null
+          "descriptionLinks/20/text"?: string | null
+          "descriptionLinks/20/url"?: string | null
+          "descriptionLinks/21/text"?: string | null
+          "descriptionLinks/21/url"?: string | null
+          "descriptionLinks/22/text"?: string | null
+          "descriptionLinks/22/url"?: string | null
+          "descriptionLinks/23/text"?: string | null
+          "descriptionLinks/23/url"?: string | null
+          "descriptionLinks/24/text"?: string | null
+          "descriptionLinks/24/url"?: string | null
+          "descriptionLinks/25/text"?: string | null
+          "descriptionLinks/3/text"?: string | null
+          "descriptionLinks/3/url"?: string | null
+          "descriptionLinks/4/text"?: string | null
+          "descriptionLinks/4/url"?: string | null
+          "descriptionLinks/5/text"?: string | null
+          "descriptionLinks/5/url"?: string | null
+          "descriptionLinks/6/text"?: string | null
+          "descriptionLinks/6/url"?: string | null
+          "descriptionLinks/7/text"?: string | null
+          "descriptionLinks/7/url"?: string | null
+          "descriptionLinks/8/text"?: string | null
+          "descriptionLinks/8/url"?: string | null
+          "descriptionLinks/9/text"?: string | null
+          "descriptionLinks/9/url"?: string | null
+        }
+        Update: {
+          channelId?: string | null
+          channelName?: string | null
+          channelUrl?: string | null
+          channelUsername?: string | null
+          comments?: string | null
+          commentsCount?: number | null
+          commentsTurnedOff?: boolean | null
+          date?: string | null
+          "descriptionLinks/0/text"?: string | null
+          "descriptionLinks/0/url"?: string | null
+          "descriptionLinks/1/text"?: string | null
+          "descriptionLinks/1/url"?: string | null
+          "descriptionLinks/10/text"?: string | null
+          "descriptionLinks/10/url"?: string | null
+          "descriptionLinks/11/text"?: string | null
+          "descriptionLinks/11/url"?: string | null
+          "descriptionLinks/12/text"?: string | null
+          "descriptionLinks/12/url"?: string | null
+          "descriptionLinks/13/text"?: string | null
+          "descriptionLinks/13/url"?: string | null
+          "descriptionLinks/14/text"?: string | null
+          "descriptionLinks/14/url"?: string | null
+          "descriptionLinks/15/text"?: string | null
+          "descriptionLinks/15/url"?: string | null
+          "descriptionLinks/16/text"?: string | null
+          "descriptionLinks/16/url"?: string | null
+          "descriptionLinks/17/text"?: string | null
+          "descriptionLinks/17/url"?: string | null
+          "descriptionLinks/18/text"?: string | null
+          "descriptionLinks/18/url"?: string | null
+          "descriptionLinks/19/text"?: string | null
+          "descriptionLinks/19/url"?: string | null
+          "descriptionLinks/2/text"?: string | null
+          "descriptionLinks/2/url"?: string | null
+          "descriptionLinks/20/text"?: string | null
+          "descriptionLinks/20/url"?: string | null
+          "descriptionLinks/21/text"?: string | null
+          "descriptionLinks/21/url"?: string | null
+          "descriptionLinks/22/text"?: string | null
+          "descriptionLinks/22/url"?: string | null
+          "descriptionLinks/23/text"?: string | null
+          "descriptionLinks/23/url"?: string | null
+          "descriptionLinks/24/text"?: string | null
+          "descriptionLinks/24/url"?: string | null
+          "descriptionLinks/25/text"?: string | null
+          "descriptionLinks/3/text"?: string | null
+          "descriptionLinks/3/url"?: string | null
+          "descriptionLinks/4/text"?: string | null
+          "descriptionLinks/4/url"?: string | null
+          "descriptionLinks/5/text"?: string | null
+          "descriptionLinks/5/url"?: string | null
+          "descriptionLinks/6/text"?: string | null
+          "descriptionLinks/6/url"?: string | null
+          "descriptionLinks/7/text"?: string | null
+          "descriptionLinks/7/url"?: string | null
+          "descriptionLinks/8/text"?: string | null
+          "descriptionLinks/8/url"?: string | null
+          "descriptionLinks/9/text"?: string | null
+          "descriptionLinks/9/url"?: string | null
+        }
+        Relationships: []
+      }
       documents: {
         Row: {
           content: string | null
@@ -226,6 +412,21 @@ export type Database = {
           created_at?: string
           id?: string
           username?: string | null
+        }
+        Relationships: []
+      }
+      "SCRAPPER DATA": {
+        Row: {
+          created_at: string
+          id: number
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+        }
+        Update: {
+          created_at?: string
+          id?: number
         }
         Relationships: []
       }
