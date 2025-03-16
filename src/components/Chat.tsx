@@ -4,6 +4,7 @@ import { Message } from '@/lib/types';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { PDFDocument } from '@/lib/types';
 import PDFViewer from './PDFViewer';
+import { FileText } from 'lucide-react';
 
 interface ChatProps {
   messages: Message[];
@@ -32,6 +33,33 @@ const Chat = ({
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
+  // Function to detect if content is HTML
+  const isHTML = (content: string) => {
+    return content.trim().startsWith('<!DOCTYPE html>') || 
+           content.trim().startsWith('<html') || 
+           (content.includes('<') && content.includes('>') && 
+            (content.includes('<div') || content.includes('<p') || 
+             content.includes('<span') || content.includes('<h')));
+  };
+
+  // Function to render HTML content safely
+  const renderContent = (content: string) => {
+    if (isHTML(content)) {
+      return (
+        <div className="w-full overflow-auto border border-gray-200 rounded-lg">
+          <iframe
+            title="HTML Content"
+            srcDoc={content}
+            className="w-full h-[600px] border-0"
+            sandbox="allow-scripts"
+          />
+        </div>
+      );
+    }
+    
+    return <div className="prose prose-invert max-w-none">{content}</div>;
   };
 
   return (
@@ -64,9 +92,7 @@ const Chat = ({
                   </span>
                 </div>
                 
-                <div className="prose prose-invert max-w-none">
-                  {message.content}
-                </div>
+                {renderContent(message.content)}
               </div>
             </div>
             
@@ -151,6 +177,3 @@ const Chat = ({
 };
 
 export default Chat;
-
-// This is missing the FileText import at the top - add it
-import { FileText } from 'lucide-react';
