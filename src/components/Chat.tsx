@@ -59,7 +59,8 @@ const Chat = ({
       );
     }
     
-    return <div className="prose prose-invert max-w-none">{content}</div>;
+    // For non-HTML content, render as markdown
+    return <div className="prose prose-invert max-w-none whitespace-pre-wrap">{content}</div>;
   };
 
   return (
