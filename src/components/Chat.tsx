@@ -44,9 +44,10 @@ const Chat = ({
              content.includes('<span') || content.includes('<h')));
   };
 
-  // Function to render HTML content safely
-  const renderContent = (content: string) => {
-    if (isHTML(content)) {
+  // Function to render content based on role and type
+  const renderContent = (content: string, role: 'user' | 'assistant') => {
+    // Only render HTML for assistant messages
+    if (role === 'assistant' && isHTML(content)) {
       return (
         <div className="w-full overflow-auto border border-gray-200 rounded-lg">
           <iframe
@@ -59,7 +60,7 @@ const Chat = ({
       );
     }
     
-    // For non-HTML content, render as markdown
+    // For user messages or non-HTML assistant messages
     return <div className="prose prose-invert max-w-none whitespace-pre-wrap">{content}</div>;
   };
 
@@ -93,7 +94,7 @@ const Chat = ({
                   </span>
                 </div>
                 
-                {renderContent(message.content)}
+                {renderContent(message.content, message.role)}
               </div>
             </div>
             
