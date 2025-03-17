@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
@@ -27,7 +26,7 @@ export function ChatSidebar() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { state, toggleSidebar } = useSidebar();
+  const { state, open, setOpen, toggleSidebar } = useSidebar();
   
   useEffect(() => {
     fetchChats();
@@ -60,7 +59,6 @@ export function ChatSidebar() {
       setIsLoading(true);
       const title = `New Chat ${new Date().toLocaleString()}`;
       
-      // For better UX, create a temporary ID for optimistic updates
       const tempId = uuidv4();
       const tempChat: Chat = { 
         id: tempId, 
@@ -68,10 +66,8 @@ export function ChatSidebar() {
         last_used: new Date().toISOString() 
       };
       
-      // Optimistically add to UI
       setChats([tempChat, ...chats]);
       
-      // Create in database
       const { data, error } = await supabase
         .from('chats')
         .insert([{ 
@@ -83,13 +79,11 @@ export function ChatSidebar() {
       
       if (error) throw error;
       
-      // Replace temp with real data
       setChats(prev => [
         data as Chat,
         ...prev.filter(c => c.id !== tempId)
       ]);
       
-      // Navigate to the new chat
       navigate('/');
       
       toast({
@@ -109,17 +103,14 @@ export function ChatSidebar() {
   };
 
   const selectChat = (chatId: string) => {
-    // Update the last_used timestamp
     supabase
       .from('chats')
       .update({ last_used: new Date().toISOString() })
       .eq('id', chatId)
       .then(() => {
-        // Refetch chats to update order
         fetchChats();
       });
     
-    // TODO: In a more complex app, we would load messages for this chat
     navigate('/');
   };
 
@@ -147,6 +138,13 @@ export function ChatSidebar() {
     }
   };
 
+  const handleAction = (action: () => void) => {
+    action();
+    if (window.innerWidth < 768) {
+      setOpen(false);
+    }
+  };
+
   return (
     <Sidebar>
       <SidebarHeader className="flex justify-between items-center p-4">
@@ -163,14 +161,13 @@ export function ChatSidebar() {
           >
             {state === "expanded" ? <PanelLeftClose className="h-5 w-5" /> : <PanelLeft className="h-5 w-5" />}
           </Button>
-          <SidebarTrigger className="md:hidden" />
         </div>
       </SidebarHeader>
       
       <SidebarContent>
         <div className="p-3">
           <Button 
-            onClick={createNewChat} 
+            onClick={() => handleAction(createNewChat)} 
             className="w-full mb-4 flex items-center justify-center"
             disabled={isLoading}
           >
@@ -189,7 +186,7 @@ export function ChatSidebar() {
               chats.map((chat) => (
                 <SidebarMenuItem key={chat.id}>
                   <SidebarMenuButton 
-                    onClick={() => selectChat(chat.id)}
+                    onClick={() => handleAction(() => selectChat(chat.id))}
                     className="flex justify-between items-center"
                   >
                     <div className="flex items-center">
@@ -200,7 +197,10 @@ export function ChatSidebar() {
                       variant="ghost" 
                       size="icon" 
                       className="h-6 w-6 opacity-0 group-hover:opacity-100"
-                      onClick={(e) => deleteChat(e, chat.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleAction(() => deleteChat(e, chat.id));
+                      }}
                     >
                       <Trash className="h-4 w-4" />
                     </Button>
@@ -229,7 +229,6 @@ export function ChatSidebar() {
         </div>
       </SidebarFooter>
       
-      {/* Add the rail that allows clicking on the edge to toggle sidebar */}
       <SidebarRail />
     </Sidebar>
   );
