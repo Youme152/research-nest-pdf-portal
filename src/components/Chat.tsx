@@ -4,7 +4,6 @@ import { Message } from '@/lib/types';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { PDFDocument } from '@/lib/types';
 import PDFViewer from './PDFViewer';
-import { FileText } from 'lucide-react';
 
 interface ChatProps {
   messages: Message[];
@@ -39,10 +38,7 @@ const Chat = ({
     <div className="w-full max-w-4xl mx-auto mt-8 animate-fade-in">
       <div className="space-y-8">
         {messages.map((message) => (
-          <div 
-            key={message.id} 
-            className="w-full"
-          >
+          <div key={message.id} className="w-full">
             <div className="flex items-start space-x-4">
               <Avatar className="h-10 w-10 mt-1">
                 {message.role === 'assistant' ? (
@@ -68,7 +64,9 @@ const Chat = ({
                   </span>
                 </div>
                 
-                <div className="prose prose-invert max-w-none whitespace-pre-wrap">{message.content}</div>
+                <div className="prose prose-invert max-w-none">
+                  {message.content}
+                </div>
               </div>
             </div>
             
@@ -153,3 +151,6 @@ const Chat = ({
 };
 
 export default Chat;
+
+// This is missing the FileText import at the top - add it
+import { FileText } from 'lucide-react';
