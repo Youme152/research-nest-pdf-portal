@@ -1,6 +1,4 @@
-
 import { useState, useEffect } from 'react';
-import Header from '@/components/Header';
 import SearchBar from '@/components/SearchBar';
 import ResearchModes from '@/components/ResearchModes';
 import Chat from '@/components/Chat';
@@ -79,7 +77,6 @@ const Index = () => {
       setGreeting('Good evening');
     }
     
-    // Set welcome message when component loads
     setMessages([{
       id: uuidv4(),
       content: `${greeting}. How can I help you today?`,
@@ -234,31 +231,35 @@ const Index = () => {
     }
   };
 
+  const handleSendMessage = (message: string) => {
+    handleSearch(message, selectedMode.id);
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-grok text-grok-foreground">
-      <Header />
-      
-      <main className="flex-1 pt-16 pb-8 px-4">
-        <div className="max-w-5xl mx-auto pt-10 pb-10 flex flex-col items-center">
+      <main className="flex-1 pb-8">
+        <div className="max-w-5xl mx-auto h-full">
           {messages.length === 1 && (
-            <div className="text-center mb-10 animate-fade-in-up">
-              <h2 className="text-3xl font-bold mb-3">{greeting}.</h2>
-              <p className="text-xl text-grok-muted-foreground">How can I help you today?</p>
-            </div>
+            <>
+              <div className="text-center pt-10 mb-10 animate-fade-in-up">
+                <h2 className="text-3xl font-bold mb-3">{greeting}.</h2>
+                <p className="text-xl text-grok-muted-foreground">How can I help you today?</p>
+              </div>
+              
+              <SearchBar 
+                onSearch={handleSearch} 
+                selectedMode={selectedMode}
+              />
+              
+              <ResearchModes
+                onSelectMode={setSelectedMode}
+                selectedMode={selectedMode}
+              />
+            </>
           )}
           
-          <SearchBar 
-            onSearch={handleSearch} 
-            selectedMode={selectedMode}
-          />
-          
-          <ResearchModes
-            onSelectMode={setSelectedMode}
-            selectedMode={selectedMode}
-          />
-          
-          {isSearching && (
-            <div className="w-full max-w-3xl mt-6 px-4 animate-fade-in">
+          {isSearching && messages.length > 1 && (
+            <div className="w-full max-w-3xl mx-auto mt-6 px-4 animate-fade-in">
               <div className="flex items-center justify-between mb-2">
                 <p className="text-sm font-medium text-grok-muted-foreground">
                   {selectedMode.name === 'DeepSearch' ? 'Searching research databases...' : 'Analyzing information...'}
@@ -275,6 +276,7 @@ const Index = () => {
             isLoading={isSearching}
             selectedPDF={selectedPDF}
             onSelectPDF={setSelectedPDF}
+            onSendMessage={handleSendMessage}
           />
         </div>
       </main>
