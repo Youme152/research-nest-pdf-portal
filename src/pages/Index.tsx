@@ -67,7 +67,7 @@ const Index = () => {
   });
   const [pdfResults, setPdfResults] = useState<PDFDocument[]>([]);
   const [selectedPDF, setSelectedPDF] = useState<PDFDocument | null>(null);
-  const [greeting, setGreeting] = useState('Good evening');
+  const [greeting, setGreeting] = useState('');
   const [isConversationStarted, setIsConversationStarted] = useState(false);
 
   useEffect(() => {
@@ -280,6 +280,7 @@ const Index = () => {
               isLoading={isSearching}
               selectedPDF={selectedPDF}
               onSelectPDF={setSelectedPDF}
+              onSendMessage={handleSendMessage}
             />
           </div>
 
