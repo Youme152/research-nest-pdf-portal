@@ -4,6 +4,7 @@ import { Message } from '@/lib/types';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { PDFDocument } from '@/lib/types';
 import PDFViewer from './PDFViewer';
+import { FileText } from 'lucide-react';
 
 interface ChatProps {
   messages: Message[];
@@ -151,6 +152,3 @@ const Chat = ({
 };
 
 export default Chat;
-
-// This is missing the FileText import at the top - add it
-import { FileText } from 'lucide-react';

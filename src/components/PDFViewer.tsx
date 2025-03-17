@@ -50,7 +50,7 @@ const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
 
   return (
     <div className="w-full max-w-4xl mx-auto my-6">
-      <Card className="bg-grok-muted border-grok-border overflow-hidden">
+      <Card className="bg-grok-muted border-grok-border">
         <div className="flex items-center justify-between p-4 border-b border-grok-border">
           <div className="flex items-center">
             <FileText className="h-5 w-5 mr-2 text-blue-400" />
