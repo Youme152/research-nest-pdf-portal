@@ -47,59 +47,64 @@ const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
   };
 
   return (
-    <div className="w-full mx-auto my-0 fixed bottom-0 left-0 right-0 top-16 bg-black/80 backdrop-blur-sm z-50">
-      <div className="w-full h-full max-w-5xl mx-auto flex flex-col">
-        {/* Header with title and download button */}
-        <div className="flex items-center justify-between py-4 px-6 border-b border-gray-800">
-          <div className="flex items-center">
-            <FileText className="h-6 w-6 mr-3 text-blue-400" />
-            <h3 className="font-medium text-xl truncate text-white">{document.title}</h3>
-          </div>
-          <div>
-            <Button 
-              variant="outline" 
-              className="bg-[#101010] text-white hover:bg-gray-900 border-gray-700 rounded-full px-6" 
-              onClick={() => window.open(document.url, '_blank')}
-            >
-              <Download className="h-4 w-4 mr-2" />
-              Download PDF
-            </Button>
-          </div>
+    <div className="w-full max-w-3xl mx-auto rounded-xl overflow-hidden border border-grok-border shadow-xl bg-pdf">
+      {/* Header with title and download button */}
+      <div className="flex items-center justify-between py-3 px-4 border-b border-gray-800">
+        <div className="flex items-center">
+          <FileText className="h-5 w-5 mr-2 text-blue-400" />
+          <h3 className="font-medium text-base truncate text-white">{document.title}</h3>
         </div>
-        
-        {/* PDF Content area */}
-        <div className="flex-1 overflow-y-auto p-8 bg-[#121212]">
-          {getPageContent()}
-        </div>
-        
-        {/* Footer with page navigation */}
-        <div className="flex items-center justify-between py-3 px-6 border-t border-gray-800 bg-[#121212]">
+        <div className="flex items-center space-x-2">
           <Button 
             variant="ghost" 
-            size="sm" 
-            onClick={handlePrevPage}
-            disabled={currentPage === 1}
-            style={{ boxShadow: 'none', transition: 'none' }}
-            className="text-white hover:bg-gray-800"
+            size="sm"
+            className="text-grok-muted-foreground hover:text-grok-foreground"
+            onClick={onClose}
           >
-            <ChevronLeft className="h-4 w-4 mr-1" /> Previous
+            Close
           </Button>
-          
-          <span className="text-sm text-white">
-            Page {currentPage} of {document.pages}
-          </span>
-          
           <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={handleNextPage}
-            disabled={currentPage === document.pages}
-            style={{ boxShadow: 'none', transition: 'none' }}
-            className="text-white hover:bg-gray-800"
+            variant="outline" 
+            size="sm"
+            className="bg-[#101010] text-white hover:bg-gray-900 border-gray-700 rounded-lg" 
+            onClick={() => window.open(document.url, '_blank')}
           >
-            Next <ChevronRight className="h-4 w-4 ml-1" />
+            <Download className="h-4 w-4 mr-1" />
+            Download
           </Button>
         </div>
+      </div>
+      
+      {/* PDF Content area */}
+      <div className="max-h-[400px] overflow-y-auto p-6 bg-[#121212]">
+        {getPageContent()}
+      </div>
+      
+      {/* Footer with page navigation */}
+      <div className="flex items-center justify-between py-2 px-4 border-t border-gray-800 bg-[#121212]">
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          onClick={handlePrevPage}
+          disabled={currentPage === 1}
+          className="text-white hover:bg-gray-800"
+        >
+          <ChevronLeft className="h-4 w-4 mr-1" /> Previous
+        </Button>
+        
+        <span className="text-sm text-white">
+          Page {currentPage} of {document.pages}
+        </span>
+        
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          onClick={handleNextPage}
+          disabled={currentPage === document.pages}
+          className="text-white hover:bg-gray-800"
+        >
+          Next <ChevronRight className="h-4 w-4 ml-1" />
+        </Button>
       </div>
     </div>
   );

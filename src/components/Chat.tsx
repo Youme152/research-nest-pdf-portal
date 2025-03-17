@@ -38,17 +38,12 @@ const Chat = ({
   const isConversationStarted = messages.length > 0 && (messages.length > 1 || messages[0]?.role === 'user');
 
   return (
-    <div className="flex flex-col h-full w-full max-w-3xl mx-auto">
+    <div className="flex flex-col h-full w-full max-w-[650px] mx-auto">
       <div className={`flex-1 overflow-y-auto px-4 pt-4 pb-20 ${isConversationStarted ? '' : ''}`}>
         {messages.length === 0 && !isLoading ? (
-          <div className="h-full flex flex-col items-center justify-center">
-            <div className="text-center max-w-xl">
-              <h2 className="text-4xl font-semibold mb-3">Good morning.</h2>
-              <p className="text-2xl text-grok-muted-foreground">How can I help you today?</p>
-            </div>
-          </div>
+          <div className="h-full"></div>
         ) : (
-          <div className="space-y-12 animate-fade-in w-full max-w-2xl mx-auto">
+          <div className="space-y-10 animate-fade-in w-full">
             {messages.map((message) => (
               <div key={message.id} className="w-full">
                 <div className="flex items-start space-x-4">
@@ -56,6 +51,13 @@ const Chat = ({
                     <div className="rounded-full w-8 h-8 mt-1 flex items-center justify-center bg-slate-700 text-white">
                       Hi
                     </div>
+                  )}
+                  
+                  {message.role === 'assistant' && (
+                    <Avatar className="h-8 w-8 mt-1">
+                      <AvatarImage src="/lovable-uploads/426621a3-cb25-4284-b6e6-781a1d6a0456.png" />
+                      <AvatarFallback className="bg-grok-accent">AI</AvatarFallback>
+                    </Avatar>
                   )}
                   
                   <div className="flex-1 space-y-2">
@@ -84,7 +86,7 @@ const Chat = ({
                 
                 {/* PDF Results */}
                 {message.role === 'assistant' && pdfResults.length > 0 && (
-                  <div className="mt-6 ml-14">
+                  <div className="mt-6 ml-12">
                     <h4 className="text-sm font-medium mb-3">Research Documents</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {pdfResults.map((pdf) => (
@@ -98,7 +100,7 @@ const Chat = ({
                           onClick={() => onSelectPDF(pdf)}
                         >
                           <div className="flex items-start space-x-3">
-                            <div className="flex-shrink-0 w-12 h-16 bg-grok-accent rounded overflow-hidden">
+                            <div className="flex-shrink-0 w-10 h-14 bg-grok-accent rounded overflow-hidden">
                               {pdf.thumbnailUrl ? (
                                 <img 
                                   src={pdf.thumbnailUrl} 
@@ -107,7 +109,7 @@ const Chat = ({
                                 />
                               ) : (
                                 <div className="flex items-center justify-center h-full">
-                                  <FileText className="h-6 w-6 text-grok-muted-foreground" />
+                                  <FileText className="h-5 w-5 text-grok-muted-foreground" />
                                 </div>
                               )}
                             </div>
@@ -131,15 +133,12 @@ const Chat = ({
             ))}
             
             {isLoading && (
-              <div className="flex items-start space-x-4 max-w-2xl mx-auto">
-                <Avatar className="h-10 w-10 mt-1">
+              <div className="flex items-start space-x-4">
+                <Avatar className="h-8 w-8 mt-1">
                   <AvatarImage src="/lovable-uploads/426621a3-cb25-4284-b6e6-781a1d6a0456.png" />
                   <AvatarFallback className="bg-grok-accent">AI</AvatarFallback>
                 </Avatar>
                 <div className="space-y-2">
-                  <div className="flex items-center">
-                    <span className="font-medium text-sm">ResearchNest</span>
-                  </div>
                   <div className="flex space-x-2">
                     <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse"></div>
                     <div className="h-2 w-2 rounded-full bg-blue-500 animate-pulse delay-100"></div>

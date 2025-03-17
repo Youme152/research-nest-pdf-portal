@@ -28,8 +28,8 @@ const ChatInput = ({ onSendMessage, isLoading = false }: ChatInputProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="fixed bottom-0 left-0 right-0 p-4 z-20">
-      <div className="relative max-w-3xl mx-auto">
+    <form onSubmit={handleSubmit} className="fixed bottom-0 left-0 right-0 p-4 z-20 bg-gradient-to-t from-grok via-grok">
+      <div className="relative max-w-[650px] mx-auto">
         <div className="relative flex items-center bg-[#222222] rounded-xl p-2 border border-grok-border transition-all shadow-lg">
           <Button 
             type="button" 

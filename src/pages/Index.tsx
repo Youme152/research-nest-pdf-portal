@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import SearchBar from '@/components/SearchBar';
 import ResearchModes from '@/components/ResearchModes';
@@ -235,32 +236,33 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-grok text-grok-foreground">
+    <div className="min-h-screen flex flex-col bg-grok text-grok-foreground overflow-y-auto">
       <main className="flex-1 h-full">
         <div className="h-full">
           {!isConversationStarted && (
             <>
-              <div className="text-center pt-32 mb-12 animate-fade-in-up">
-                <h2 className="text-4xl font-semibold mb-3">{greeting}, Josh.</h2>
-                <p className="text-2xl text-grok-muted-foreground">How can I help you today?</p>
+              <div className="text-center pt-36 mb-10 animate-fade-in-up">
+                <h2 className="text-4xl font-semibold">{greeting}, Josh.</h2>
               </div>
               
-              <SearchBar 
-                onSearch={handleSearch} 
-                selectedMode={selectedMode}
-              />
-              
-              <div className="mt-10">
-                <ResearchModes
-                  onSelectMode={setSelectedMode}
+              <div className="max-w-[650px] mx-auto px-4">
+                <SearchBar 
+                  onSearch={handleSearch} 
                   selectedMode={selectedMode}
                 />
+                
+                <div className="mt-8">
+                  <ResearchModes
+                    onSelectMode={setSelectedMode}
+                    selectedMode={selectedMode}
+                  />
+                </div>
               </div>
             </>
           )}
           
           {isSearching && isConversationStarted && (
-            <div className="w-full max-w-3xl mx-auto mt-6 px-4 animate-fade-in">
+            <div className="w-full max-w-[650px] mx-auto mt-6 px-4 animate-fade-in">
               <div className="flex items-center justify-between mb-2">
                 <p className="text-sm font-medium text-grok-muted-foreground">
                   {selectedMode.name === 'DeepSearch' ? 'Searching research databases...' : 'Analyzing information...'}
@@ -271,13 +273,15 @@ const Index = () => {
             </div>
           )}
           
-          <Chat 
-            messages={messages}
-            pdfResults={pdfResults}
-            isLoading={isSearching}
-            selectedPDF={selectedPDF}
-            onSelectPDF={setSelectedPDF}
-          />
+          <div className="pb-24">
+            <Chat 
+              messages={messages}
+              pdfResults={pdfResults}
+              isLoading={isSearching}
+              selectedPDF={selectedPDF}
+              onSelectPDF={setSelectedPDF}
+            />
+          </div>
 
           {isConversationStarted && (
             <ChatInput 
@@ -292,4 +296,3 @@ const Index = () => {
 };
 
 export default Index;
-

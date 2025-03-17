@@ -22,7 +22,7 @@ const SearchBar = ({ onSearch, selectedMode }: SearchBarProps) => {
   return (
     <form 
       onSubmit={handleSubmit}
-      className="w-full max-w-2xl mx-auto search-appear"
+      className="w-full mx-auto search-appear"
     >
       <div className="relative group">
         <div className="absolute inset-0 bg-gradient-to-r from-gray-800/20 to-gray-700/20 rounded-xl blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
@@ -47,7 +47,7 @@ const SearchBar = ({ onSearch, selectedMode }: SearchBarProps) => {
             </Button>
             
             <div className="flex items-center gap-2 px-3 py-1.5 bg-[#333333] rounded-lg mr-1">
-              <span className="text-sm font-medium">DeepSearch</span>
+              <span className="text-sm font-medium">{selectedMode.name}</span>
             </div>
             
             <Button 
