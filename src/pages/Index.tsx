@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import SearchBar from '@/components/SearchBar';
@@ -51,18 +52,11 @@ const MOCK_PDFS: PDFDocument[] = [
   }
 ];
 
-const WELCOME_MESSAGE: Message = {
-  id: uuidv4(),
-  content: 'Good evening. How can I help you today?',
-  role: 'assistant',
-  timestamp: new Date()
-};
-
 const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || '/api/research';
 const SUPABASE_ENDPOINT = "https://zwwofphqttojlgoefhzz.functions.supabase.co/webhook-receiver";
 
 const Index = () => {
-  const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [searchProgress, setSearchProgress] = useState(0);
   const [selectedMode, setSelectedMode] = useState<ResearchMode>({
@@ -84,6 +78,14 @@ const Index = () => {
     } else {
       setGreeting('Good evening');
     }
+    
+    // Set welcome message when component loads
+    setMessages([{
+      id: uuidv4(),
+      content: `${greeting}. How can I help you today?`,
+      role: 'assistant',
+      timestamp: new Date()
+    }]);
   }, []);
 
   useEffect(() => {
@@ -237,7 +239,7 @@ const Index = () => {
       <Header />
       
       <main className="flex-1 pt-16 pb-8 px-4">
-        <div className="max-w-5xl mx-auto pt-20 pb-10 flex flex-col items-center">
+        <div className="max-w-5xl mx-auto pt-10 pb-10 flex flex-col items-center">
           {messages.length === 1 && (
             <div className="text-center mb-10 animate-fade-in-up">
               <h2 className="text-3xl font-bold mb-3">{greeting}.</h2>
