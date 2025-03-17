@@ -460,14 +460,16 @@ const Chat = ({
     // If a message is selected and it's this message, replace with HTML demo
     if (selectedMessage === messageId) {
       return (
-        <div className="w-full overflow-auto border border-gray-200 rounded-lg">
-          <iframe
-            title="HTML Content"
-            srcDoc={YOUTUBE_ANALYTICS_HTML}
-            className="w-full h-[600px] border-0"
-            style={{ width: '1920px', height: '1080px', maxWidth: '100%', transform: 'scale(0.5)', transformOrigin: 'top left' }}
-            sandbox="allow-scripts"
-          />
+        <div className="w-full overflow-auto border border-gray-200 rounded-lg" style={{ height: '600px' }}>
+          <div style={{ width: '1920px', height: '1080px', transform: 'scale(0.5)', transformOrigin: 'top left' }}>
+            <iframe
+              title="HTML Content"
+              srcDoc={YOUTUBE_ANALYTICS_HTML}
+              className="border-0"
+              style={{ width: '100%', height: '100%' }}
+              sandbox="allow-scripts"
+            />
+          </div>
         </div>
       );
     }
@@ -475,14 +477,16 @@ const Chat = ({
     // Only render HTML for assistant messages
     if (role === 'assistant' && isHTML(content)) {
       return (
-        <div className="w-full overflow-auto border border-gray-200 rounded-lg">
-          <iframe
-            title="HTML Content"
-            srcDoc={content}
-            className="w-full h-[600px] border-0"
-            style={{ width: '1920px', height: '1080px', maxWidth: '100%', transform: 'scale(0.5)', transformOrigin: 'top left' }}
-            sandbox="allow-scripts"
-          />
+        <div className="w-full overflow-auto border border-gray-200 rounded-lg" style={{ height: '600px' }}>
+          <div style={{ width: '1920px', height: '1080px', transform: 'scale(0.5)', transformOrigin: 'top left' }}>
+            <iframe
+              title="HTML Content"
+              srcDoc={content}
+              className="border-0"
+              style={{ width: '100%', height: '100%' }}
+              sandbox="allow-scripts"
+            />
+          </div>
         </div>
       );
     }
