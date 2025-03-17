@@ -2,9 +2,8 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, Download, ExternalLink, FileText } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Download, FileText } from 'lucide-react';
 import { PDFDocument } from '@/lib/types';
-import { Link } from 'react-router-dom';
 
 interface PDFViewerProps {
   document: PDFDocument;
@@ -50,7 +49,7 @@ const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto my-6 pdf-appear">
+    <div className="w-full max-w-4xl mx-auto my-6">
       <Card className="bg-grok-muted border-grok-border overflow-hidden">
         <div className="flex items-center justify-between p-4 border-b border-grok-border">
           <div className="flex items-center">
@@ -59,14 +58,11 @@ const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
           </div>
           <div className="flex items-center space-x-2">
             <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => window.open(document.url, '_blank')}>
-              <ExternalLink className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="icon" className="h-8 w-8">
               <Download className="h-4 w-4" />
             </Button>
-            <Link to={`/pdf/${document.id}`}>
-              <Button variant="secondary" size="sm">Open Full View</Button>
-            </Link>
+            <Button variant="secondary" size="sm" onClick={() => window.open(document.url, '_blank')}>
+              Download PDF
+            </Button>
           </div>
         </div>
         

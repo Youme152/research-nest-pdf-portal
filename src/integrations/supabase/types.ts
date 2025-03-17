@@ -156,7 +156,7 @@ export type Database = {
       }
       "Brookhaven RPP": {
         Row: {
-          channelId: string | null
+          channelId: string
           channelName: string | null
           channelUrl: string | null
           channelUsername: string | null
@@ -201,6 +201,9 @@ export type Database = {
           "descriptionLinks/24/text": string | null
           "descriptionLinks/24/url": string | null
           "descriptionLinks/25/text": string | null
+          "descriptionLinks/25/url": string | null
+          "descriptionLinks/26/text": string | null
+          "descriptionLinks/26/url": string | null
           "descriptionLinks/3/text": string | null
           "descriptionLinks/3/url": string | null
           "descriptionLinks/4/text": string | null
@@ -215,9 +218,27 @@ export type Database = {
           "descriptionLinks/8/url": string | null
           "descriptionLinks/9/text": string | null
           "descriptionLinks/9/url": string | null
+          duration: string | null
+          fromYTUrl: string | null
+          "hashtags/0": string | null
+          "hashtags/1": string | null
+          "hashtags/2": string | null
+          id: string | null
+          input: string | null
+          isMonetized: string | null
+          likes: number | null
+          location: string | null
+          numberOfSubscribers: number | null
+          subtitles: string | null
+          text: string | null
+          thumbnailUrl: string | null
+          title: string | null
+          type: string | null
+          url: string | null
+          viewCount: number | null
         }
         Insert: {
-          channelId?: string | null
+          channelId: string
           channelName?: string | null
           channelUrl?: string | null
           channelUsername?: string | null
@@ -262,6 +283,9 @@ export type Database = {
           "descriptionLinks/24/text"?: string | null
           "descriptionLinks/24/url"?: string | null
           "descriptionLinks/25/text"?: string | null
+          "descriptionLinks/25/url"?: string | null
+          "descriptionLinks/26/text"?: string | null
+          "descriptionLinks/26/url"?: string | null
           "descriptionLinks/3/text"?: string | null
           "descriptionLinks/3/url"?: string | null
           "descriptionLinks/4/text"?: string | null
@@ -276,9 +300,27 @@ export type Database = {
           "descriptionLinks/8/url"?: string | null
           "descriptionLinks/9/text"?: string | null
           "descriptionLinks/9/url"?: string | null
+          duration?: string | null
+          fromYTUrl?: string | null
+          "hashtags/0"?: string | null
+          "hashtags/1"?: string | null
+          "hashtags/2"?: string | null
+          id?: string | null
+          input?: string | null
+          isMonetized?: string | null
+          likes?: number | null
+          location?: string | null
+          numberOfSubscribers?: number | null
+          subtitles?: string | null
+          text?: string | null
+          thumbnailUrl?: string | null
+          title?: string | null
+          type?: string | null
+          url?: string | null
+          viewCount?: number | null
         }
         Update: {
-          channelId?: string | null
+          channelId?: string
           channelName?: string | null
           channelUrl?: string | null
           channelUsername?: string | null
@@ -323,6 +365,9 @@ export type Database = {
           "descriptionLinks/24/text"?: string | null
           "descriptionLinks/24/url"?: string | null
           "descriptionLinks/25/text"?: string | null
+          "descriptionLinks/25/url"?: string | null
+          "descriptionLinks/26/text"?: string | null
+          "descriptionLinks/26/url"?: string | null
           "descriptionLinks/3/text"?: string | null
           "descriptionLinks/3/url"?: string | null
           "descriptionLinks/4/text"?: string | null
@@ -337,6 +382,24 @@ export type Database = {
           "descriptionLinks/8/url"?: string | null
           "descriptionLinks/9/text"?: string | null
           "descriptionLinks/9/url"?: string | null
+          duration?: string | null
+          fromYTUrl?: string | null
+          "hashtags/0"?: string | null
+          "hashtags/1"?: string | null
+          "hashtags/2"?: string | null
+          id?: string | null
+          input?: string | null
+          isMonetized?: string | null
+          likes?: number | null
+          location?: string | null
+          numberOfSubscribers?: number | null
+          subtitles?: string | null
+          text?: string | null
+          thumbnailUrl?: string | null
+          title?: string | null
+          type?: string | null
+          url?: string | null
+          viewCount?: number | null
         }
         Relationships: []
       }
