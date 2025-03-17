@@ -57,10 +57,20 @@ const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
             <h3 className="font-semibold truncate">{document.title}</h3>
           </div>
           <div className="flex items-center space-x-2">
-            <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => window.open(document.url, '_blank')}>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="h-8 w-8" 
+              onClick={() => window.open(document.url, '_blank')}
+            >
               <Download className="h-4 w-4" />
             </Button>
-            <Button variant="secondary" size="sm" onClick={() => window.open(document.url, '_blank')}>
+            <Button 
+              variant="outline" 
+              className="bg-transparent hover:bg-transparent" 
+              size="sm" 
+              onClick={() => window.open(document.url, '_blank')}
+            >
               Download PDF
             </Button>
           </div>
