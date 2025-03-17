@@ -50,7 +50,7 @@ const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
 
   return (
     <div className="w-full max-w-4xl mx-auto my-6">
-      <Card className="bg-grok-muted border-grok-border">
+      <Card className="bg-grok-muted border-grok-border" style={{ boxShadow: 'none' }}>
         <div className="flex items-center justify-between p-4 border-b border-grok-border">
           <div className="flex items-center">
             <FileText className="h-5 w-5 mr-2 text-blue-400" />
@@ -70,6 +70,7 @@ const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
               className="bg-transparent hover:bg-transparent" 
               size="sm" 
               onClick={() => window.open(document.url, '_blank')}
+              style={{ transition: 'none' }}
             >
               Download PDF
             </Button>
@@ -86,6 +87,7 @@ const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
             size="sm" 
             onClick={handlePrevPage}
             disabled={currentPage === 1}
+            style={{ transition: 'none' }}
           >
             <ChevronLeft className="h-4 w-4 mr-1" /> Previous
           </Button>
@@ -99,6 +101,7 @@ const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
             size="sm" 
             onClick={handleNextPage}
             disabled={currentPage === document.pages}
+            style={{ transition: 'none' }}
           >
             Next <ChevronRight className="h-4 w-4 ml-1" />
           </Button>
