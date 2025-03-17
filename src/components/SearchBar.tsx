@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Search, Paperclip, ArrowUp } from 'lucide-react';
+import { Paperclip, ArrowUp } from 'lucide-react';
 import { ResearchMode } from '@/lib/types';
 
 interface SearchBarProps {
@@ -16,25 +16,18 @@ const SearchBar = ({ onSearch, selectedMode }: SearchBarProps) => {
     e.preventDefault();
     if (query.trim()) {
       onSearch(query, selectedMode.id);
-      // Don't clear the query to preserve the user's input
     }
   };
 
   return (
     <form 
       onSubmit={handleSubmit}
-      className="w-full max-w-3xl mx-auto search-appear"
+      className="w-full max-w-2xl mx-auto search-appear"
     >
       <div className="relative group">
         <div className="absolute inset-0 bg-gradient-to-r from-gray-800/20 to-gray-700/20 rounded-xl blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
         
-        <div className="relative flex items-center bg-grok-search rounded-xl p-3 border border-grok-border transition-all shadow-lg">
-          <div className="flex items-center min-w-[120px] px-2">
-            <div className="flex items-center justify-center w-8 h-8 bg-grok-accent rounded-full">
-              <Search className="h-4 w-4 text-grok-foreground" />
-            </div>
-          </div>
-          
+        <div className="relative flex items-center bg-[#222222] rounded-xl p-3 border border-grok-border transition-all shadow-lg">
           <input
             type="text"
             value={query}
@@ -53,11 +46,15 @@ const SearchBar = ({ onSearch, selectedMode }: SearchBarProps) => {
               <Paperclip className="h-5 w-5" />
             </Button>
             
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-[#333333] rounded-lg mr-1">
+              <span className="text-sm font-medium">DeepSearch</span>
+            </div>
+            
             <Button 
               type="submit" 
               variant="ghost" 
               size="icon" 
-              className={`rounded-full ${query.trim() ? 'bg-white text-black hover:bg-gray-200' : 'text-grok-muted-foreground hover:bg-grok-accent'}`}
+              className="rounded-full bg-[#333333] hover:bg-[#444444] flex items-center justify-center"
               disabled={!query.trim()}
             >
               <ArrowUp className="h-5 w-5" />

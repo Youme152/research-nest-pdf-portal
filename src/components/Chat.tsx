@@ -4,7 +4,7 @@ import { Message } from '@/lib/types';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { PDFDocument } from '@/lib/types';
 import PDFViewer from './PDFViewer';
-import { FileText } from 'lucide-react';
+import { FileText, ThumbsUp, ThumbsDown, RefreshCw, Copy } from 'lucide-react';
 import ChatInput from './ChatInput';
 
 interface ChatProps {
@@ -38,47 +38,47 @@ const Chat = ({
   const isConversationStarted = messages.length > 0 && (messages.length > 1 || messages[0]?.role === 'user');
 
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] w-full max-w-4xl mx-auto">
-      <div className={`flex-1 overflow-y-auto p-4 ${isConversationStarted ? 'pb-0' : ''}`}>
+    <div className="flex flex-col h-full w-full max-w-3xl mx-auto">
+      <div className={`flex-1 overflow-y-auto px-4 pt-4 pb-20 ${isConversationStarted ? '' : ''}`}>
         {messages.length === 0 && !isLoading ? (
-          <div className="h-full flex items-center justify-center">
-            <div className="text-center text-grok-muted-foreground">
-              <h3 className="text-xl font-medium mb-2">Start a new conversation</h3>
-              <p>Ask me anything about research papers, studies, or topics you're interested in.</p>
+          <div className="h-full flex flex-col items-center justify-center">
+            <div className="text-center max-w-xl">
+              <h2 className="text-4xl font-semibold mb-3">Good morning.</h2>
+              <p className="text-2xl text-grok-muted-foreground">How can I help you today?</p>
             </div>
           </div>
         ) : (
-          <div className="space-y-8 animate-fade-in">
+          <div className="space-y-12 animate-fade-in w-full max-w-2xl mx-auto">
             {messages.map((message) => (
               <div key={message.id} className="w-full">
                 <div className="flex items-start space-x-4">
-                  <Avatar className="h-10 w-10 mt-1">
-                    {message.role === 'assistant' ? (
-                      <>
-                        <AvatarImage src="/lovable-uploads/426621a3-cb25-4284-b6e6-781a1d6a0456.png" />
-                        <AvatarFallback className="bg-grok-accent">AI</AvatarFallback>
-                      </>
-                    ) : (
-                      <>
-                        <AvatarImage src="https://github.com/shadcn.png" />
-                        <AvatarFallback className="bg-blue-600">You</AvatarFallback>
-                      </>
-                    )}
-                  </Avatar>
+                  {message.role === 'user' && (
+                    <div className="rounded-full w-8 h-8 mt-1 flex items-center justify-center bg-slate-700 text-white">
+                      Hi
+                    </div>
+                  )}
                   
                   <div className="flex-1 space-y-2">
-                    <div className="flex items-center">
-                      <span className="font-medium text-sm">
-                        {message.role === 'assistant' ? 'ResearchNest' : 'You'}
-                      </span>
-                      <span className="ml-2 text-xs text-grok-muted-foreground">
-                        {formatTime(message.timestamp)}
-                      </span>
-                    </div>
-                    
                     <div className="prose prose-invert max-w-none">
                       {message.content}
                     </div>
+                    
+                    {message.role === 'assistant' && (
+                      <div className="flex items-center gap-2 mt-3">
+                        <button className="p-1 rounded-full hover:bg-gray-800">
+                          <RefreshCw size={16} />
+                        </button>
+                        <button className="p-1 rounded-full hover:bg-gray-800">
+                          <Copy size={16} />
+                        </button>
+                        <button className="p-1 rounded-full hover:bg-gray-800">
+                          <ThumbsUp size={16} />
+                        </button>
+                        <button className="p-1 rounded-full hover:bg-gray-800">
+                          <ThumbsDown size={16} />
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
                 
@@ -131,7 +131,7 @@ const Chat = ({
             ))}
             
             {isLoading && (
-              <div className="flex items-start space-x-4">
+              <div className="flex items-start space-x-4 max-w-2xl mx-auto">
                 <Avatar className="h-10 w-10 mt-1">
                   <AvatarImage src="/lovable-uploads/426621a3-cb25-4284-b6e6-781a1d6a0456.png" />
                   <AvatarFallback className="bg-grok-accent">AI</AvatarFallback>
@@ -153,10 +153,6 @@ const Chat = ({
           </div>
         )}
       </div>
-      
-      {onSendMessage && isConversationStarted && (
-        <ChatInput onSendMessage={onSendMessage} isLoading={isLoading} />
-      )}
       
       {selectedPDF && (
         <PDFViewer 

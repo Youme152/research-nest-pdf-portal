@@ -62,7 +62,9 @@ export default {
 					border: '#333333',
 					input: '#2A2A2B',
 					search: '#222222',
-					selected: 'rgba(255, 255, 255, 0.1)'
+					selected: 'rgba(255, 255, 255, 0.1)',
+					darkgray: '#1A1A1A',
+					button: '#333333'
 				},
 				pdf: {
 					DEFAULT: '#121212',

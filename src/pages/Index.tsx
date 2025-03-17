@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import SearchBar from '@/components/SearchBar';
 import ResearchModes from '@/components/ResearchModes';
 import Chat from '@/components/Chat';
+import ChatInput from '@/components/ChatInput';
 import { Message, ResearchMode, PDFDocument } from '@/lib/types';
 import { v4 as uuidv4 } from 'uuid';
 import { Progress } from '@/components/ui/progress';
@@ -235,13 +236,13 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-grok text-grok-foreground">
-      <main className="flex-1 pb-8">
-        <div className="max-w-5xl mx-auto h-full">
+      <main className="flex-1 h-full">
+        <div className="h-full">
           {!isConversationStarted && (
             <>
-              <div className="text-center pt-10 mb-10 animate-fade-in-up">
-                <h2 className="text-3xl font-bold mb-3">{greeting}.</h2>
-                <p className="text-xl text-grok-muted-foreground">How can I help you today?</p>
+              <div className="text-center pt-32 mb-12 animate-fade-in-up">
+                <h2 className="text-4xl font-semibold mb-3">{greeting}, Josh.</h2>
+                <p className="text-2xl text-grok-muted-foreground">How can I help you today?</p>
               </div>
               
               <SearchBar 
@@ -249,10 +250,12 @@ const Index = () => {
                 selectedMode={selectedMode}
               />
               
-              <ResearchModes
-                onSelectMode={setSelectedMode}
-                selectedMode={selectedMode}
-              />
+              <div className="mt-10">
+                <ResearchModes
+                  onSelectMode={setSelectedMode}
+                  selectedMode={selectedMode}
+                />
+              </div>
             </>
           )}
           
@@ -274,8 +277,14 @@ const Index = () => {
             isLoading={isSearching}
             selectedPDF={selectedPDF}
             onSelectPDF={setSelectedPDF}
-            onSendMessage={isConversationStarted ? handleSendMessage : undefined}
           />
+
+          {isConversationStarted && (
+            <ChatInput 
+              onSendMessage={handleSendMessage} 
+              isLoading={isSearching} 
+            />
+          )}
         </div>
       </main>
     </div>
@@ -283,3 +292,4 @@ const Index = () => {
 };
 
 export default Index;
+
