@@ -403,6 +403,27 @@ export type Database = {
         }
         Relationships: []
       }
+      chats: {
+        Row: {
+          created_at: string
+          id: string
+          last_used: string
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_used?: string
+          title: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_used?: string
+          title?: string
+        }
+        Relationships: []
+      }
       documents: {
         Row: {
           content: string | null

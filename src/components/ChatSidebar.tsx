@@ -18,12 +18,7 @@ import { Plus, MessageSquare, Trash } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { v4 as uuidv4 } from 'uuid';
-
-interface Chat {
-  id: string;
-  title: string;
-  last_used: string;
-}
+import { Chat } from '@/lib/types';
 
 export function ChatSidebar() {
   const [chats, setChats] = useState<Chat[]>([]);
@@ -64,7 +59,11 @@ export function ChatSidebar() {
       
       // For better UX, create a temporary ID for optimistic updates
       const tempId = uuidv4();
-      const tempChat = { id: tempId, title, last_used: new Date().toISOString() };
+      const tempChat: Chat = { 
+        id: tempId, 
+        title, 
+        last_used: new Date().toISOString() 
+      };
       
       // Optimistically add to UI
       setChats([tempChat, ...chats]);
@@ -72,7 +71,10 @@ export function ChatSidebar() {
       // Create in database
       const { data, error } = await supabase
         .from('chats')
-        .insert([{ title, last_used: new Date().toISOString() }])
+        .insert([{ 
+          title, 
+          last_used: new Date().toISOString() 
+        }])
         .select()
         .single();
       
@@ -80,7 +82,7 @@ export function ChatSidebar() {
       
       // Replace temp with real data
       setChats(prev => [
-        data,
+        data as Chat,
         ...prev.filter(c => c.id !== tempId)
       ]);
       
@@ -164,7 +166,7 @@ export function ChatSidebar() {
           <SidebarGroupLabel>Recent Chats</SidebarGroupLabel>
           <SidebarMenu>
             {chats.length === 0 && !isLoading ? (
-              <div className="text-sm text-center p-4 text-grok-muted-foreground">
+              <div className="text-sm text-center p-4 text-muted-foreground">
                 No chats yet. Start a new conversation!
               </div>
             ) : (
@@ -195,7 +197,7 @@ export function ChatSidebar() {
       </SidebarContent>
       
       <SidebarFooter className="p-4">
-        <div className="text-xs text-grok-muted-foreground">
+        <div className="text-xs text-muted-foreground">
           ResearchNest v1.0
         </div>
       </SidebarFooter>
