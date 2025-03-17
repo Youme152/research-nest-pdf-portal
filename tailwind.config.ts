@@ -63,6 +63,11 @@ export default {
 					input: '#2A2A2B',
 					search: '#222222',
 					selected: 'rgba(255, 255, 255, 0.1)'
+				},
+				pdf: {
+					DEFAULT: '#121212',
+					header: '#101010',
+					border: '#2A2A2B',
 				}
 			},
 			borderRadius: {

@@ -1,7 +1,6 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
 import { ChevronLeft, ChevronRight, Download, FileText } from 'lucide-react';
 import { PDFDocument } from '@/lib/types';
 
@@ -26,22 +25,21 @@ const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
   };
 
   // This would normally be HTML content rendered from a PDF
-  // For now, we'll simulate it with placeholder content
   const getPageContent = () => {
     return (
       <div className="prose max-w-none">
-        <h2 className="text-white">Page {currentPage} of PDF Content</h2>
-        <p className="text-white">
+        <h2 className="text-white text-2xl font-medium mb-6">Page {currentPage} of PDF Content</h2>
+        <p className="text-white text-lg mb-8">
           This is a simulated view of page {currentPage} from the document titled "{document.title}".
           In a real implementation, this would be actual HTML content rendered from the PDF.
         </p>
-        <p className="text-white">
+        <p className="text-white text-lg mb-8">
           {document.abstract}
         </p>
-        <p className="text-white">
+        <p className="text-white text-lg mb-2">
           <strong>Authors:</strong> {document.authors.join(', ')}
         </p>
-        <p className="text-white">
+        <p className="text-white text-lg">
           <strong>Published:</strong> {document.publishedDate}
         </p>
       </div>
@@ -49,47 +47,40 @@ const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto my-6">
-      <Card className="bg-[#1E1E1F] border-grok-border" style={{ boxShadow: 'none' }}>
-        <div className="flex items-center justify-between p-4 border-b border-grok-border">
+    <div className="w-full mx-auto my-0 fixed bottom-0 left-0 right-0 top-16 bg-black/80 backdrop-blur-sm z-50">
+      <div className="w-full h-full max-w-5xl mx-auto flex flex-col">
+        {/* Header with title and download button */}
+        <div className="flex items-center justify-between py-4 px-6 border-b border-gray-800">
           <div className="flex items-center">
-            <FileText className="h-5 w-5 mr-2 text-blue-400" />
-            <h3 className="font-semibold truncate text-white">{document.title}</h3>
+            <FileText className="h-6 w-6 mr-3 text-blue-400" />
+            <h3 className="font-medium text-xl truncate text-white">{document.title}</h3>
           </div>
-          <div className="flex items-center space-x-2">
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="h-8 w-8 text-white hover:bg-transparent" 
-              onClick={() => window.open(document.url, '_blank')}
-              style={{ boxShadow: 'none', transition: 'none' }}
-            >
-              <Download className="h-4 w-4" />
-            </Button>
+          <div>
             <Button 
               variant="outline" 
-              className="bg-transparent text-white hover:bg-transparent border-grok-border" 
-              size="sm" 
+              className="bg-[#101010] text-white hover:bg-gray-900 border-gray-700 rounded-full px-6" 
               onClick={() => window.open(document.url, '_blank')}
-              style={{ boxShadow: 'none', transition: 'none' }}
             >
+              <Download className="h-4 w-4 mr-2" />
               Download PDF
             </Button>
           </div>
         </div>
         
-        <CardContent className="p-6 min-h-[400px] bg-[#1E1E1F]">
+        {/* PDF Content area */}
+        <div className="flex-1 overflow-y-auto p-8 bg-[#121212]">
           {getPageContent()}
-        </CardContent>
+        </div>
         
-        <div className="flex items-center justify-between p-4 border-t border-grok-border bg-[#1E1E1F]">
+        {/* Footer with page navigation */}
+        <div className="flex items-center justify-between py-3 px-6 border-t border-gray-800 bg-[#121212]">
           <Button 
             variant="ghost" 
             size="sm" 
             onClick={handlePrevPage}
             disabled={currentPage === 1}
             style={{ boxShadow: 'none', transition: 'none' }}
-            className="text-white hover:bg-transparent"
+            className="text-white hover:bg-gray-800"
           >
             <ChevronLeft className="h-4 w-4 mr-1" /> Previous
           </Button>
@@ -104,12 +95,12 @@ const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
             onClick={handleNextPage}
             disabled={currentPage === document.pages}
             style={{ boxShadow: 'none', transition: 'none' }}
-            className="text-white hover:bg-transparent"
+            className="text-white hover:bg-gray-800"
           >
             Next <ChevronRight className="h-4 w-4 ml-1" />
           </Button>
         </div>
-      </Card>
+      </div>
     </div>
   );
 };
