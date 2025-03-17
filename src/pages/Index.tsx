@@ -66,6 +66,7 @@ const Index = () => {
   const [pdfResults, setPdfResults] = useState<PDFDocument[]>([]);
   const [selectedPDF, setSelectedPDF] = useState<PDFDocument | null>(null);
   const [greeting, setGreeting] = useState('Good evening');
+  const [isConversationStarted, setIsConversationStarted] = useState(false);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -76,13 +77,6 @@ const Index = () => {
     } else {
       setGreeting('Good evening');
     }
-    
-    setMessages([{
-      id: uuidv4(),
-      content: `${greeting}. How can I help you today?`,
-      role: 'assistant',
-      timestamp: new Date()
-    }]);
   }, []);
 
   useEffect(() => {
@@ -104,13 +98,17 @@ const Index = () => {
   }, [isSearching]);
 
   const handleSearch = async (query: string, mode: string) => {
+    if (!isConversationStarted) {
+      setIsConversationStarted(true);
+    }
+    
     const userMessage: Message = {
       id: uuidv4(),
       content: query,
       role: 'user',
       timestamp: new Date()
     };
-    setMessages([...messages, userMessage]);
+    setMessages(prev => [...prev, userMessage]);
     
     setIsSearching(true);
     setPdfResults([]);
@@ -239,7 +237,7 @@ const Index = () => {
     <div className="min-h-screen flex flex-col bg-grok text-grok-foreground">
       <main className="flex-1 pb-8">
         <div className="max-w-5xl mx-auto h-full">
-          {messages.length === 1 && (
+          {!isConversationStarted && (
             <>
               <div className="text-center pt-10 mb-10 animate-fade-in-up">
                 <h2 className="text-3xl font-bold mb-3">{greeting}.</h2>
@@ -258,7 +256,7 @@ const Index = () => {
             </>
           )}
           
-          {isSearching && messages.length > 1 && (
+          {isSearching && isConversationStarted && (
             <div className="w-full max-w-3xl mx-auto mt-6 px-4 animate-fade-in">
               <div className="flex items-center justify-between mb-2">
                 <p className="text-sm font-medium text-grok-muted-foreground">
@@ -271,12 +269,12 @@ const Index = () => {
           )}
           
           <Chat 
-            messages={messages.slice(messages.length > 1 ? 1 : 0)}
+            messages={messages}
             pdfResults={pdfResults}
             isLoading={isSearching}
             selectedPDF={selectedPDF}
             onSelectPDF={setSelectedPDF}
-            onSendMessage={handleSendMessage}
+            onSendMessage={isConversationStarted ? handleSendMessage : undefined}
           />
         </div>
       </main>

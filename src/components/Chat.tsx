@@ -34,9 +34,12 @@ const Chat = ({
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
+  // Check if this is the initial greeting message or if there are multiple messages
+  const isConversationStarted = messages.length > 0 && (messages.length > 1 || messages[0]?.role === 'user');
+
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)] w-full max-w-4xl mx-auto">
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className={`flex-1 overflow-y-auto p-4 ${isConversationStarted ? 'pb-0' : ''}`}>
         {messages.length === 0 && !isLoading ? (
           <div className="h-full flex items-center justify-center">
             <div className="text-center text-grok-muted-foreground">
@@ -151,7 +154,7 @@ const Chat = ({
         )}
       </div>
       
-      {onSendMessage && (
+      {onSendMessage && isConversationStarted && (
         <ChatInput onSendMessage={onSendMessage} isLoading={isLoading} />
       )}
       
