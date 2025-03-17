@@ -1,15 +1,16 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ChevronLeft, ChevronRight, Download, FileText } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Download, FileText, X } from 'lucide-react';
 import { PDFDocument } from '@/lib/types';
 
 interface PDFViewerProps {
   document: PDFDocument;
   onClose: () => void;
+  embedded?: boolean;
 }
 
-const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
+const PDFViewer = ({ document, onClose, embedded = false }: PDFViewerProps) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const handleNextPage = () => {
@@ -46,8 +47,11 @@ const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
     );
   };
 
+  const maxWidth = embedded ? 'w-full' : 'max-w-3xl';
+  const maxHeight = embedded ? 'max-h-[300px]' : 'max-h-[400px]';
+
   return (
-    <div className="w-full max-w-3xl mx-auto rounded-xl overflow-hidden border border-grok-border shadow-xl bg-pdf">
+    <div className={`${maxWidth} mx-auto rounded-xl overflow-hidden border border-grok-border shadow-xl bg-pdf`}>
       {/* Header with title and download button */}
       <div className="flex items-center justify-between py-3 px-4 border-b border-gray-800">
         <div className="flex items-center">
@@ -61,7 +65,7 @@ const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
             className="text-grok-muted-foreground hover:text-grok-foreground"
             onClick={onClose}
           >
-            Close
+            <X className="h-4 w-4" />
           </Button>
           <Button 
             variant="outline" 
@@ -76,7 +80,7 @@ const PDFViewer = ({ document, onClose }: PDFViewerProps) => {
       </div>
       
       {/* PDF Content area */}
-      <div className="max-h-[400px] overflow-y-auto p-6 bg-[#121212]">
+      <div className={`${maxHeight} overflow-y-auto p-6 bg-[#121212]`}>
         {getPageContent()}
       </div>
       
