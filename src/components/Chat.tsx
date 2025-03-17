@@ -465,6 +465,7 @@ const Chat = ({
             title="HTML Content"
             srcDoc={YOUTUBE_ANALYTICS_HTML}
             className="w-full h-[600px] border-0"
+            style={{ width: '1920px', height: '1080px', maxWidth: '100%', transform: 'scale(0.5)', transformOrigin: 'top left' }}
             sandbox="allow-scripts"
           />
         </div>
@@ -479,6 +480,7 @@ const Chat = ({
             title="HTML Content"
             srcDoc={content}
             className="w-full h-[600px] border-0"
+            style={{ width: '1920px', height: '1080px', maxWidth: '100%', transform: 'scale(0.5)', transformOrigin: 'top left' }}
             sandbox="allow-scripts"
           />
         </div>
