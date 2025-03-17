@@ -3,9 +3,11 @@ import { Menu, Bell, Settings } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useSidebar } from '@/components/ui/sidebar';
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const { open, setOpen, toggleSidebar } = useSidebar();
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between h-16 px-6 bg-grok/90 backdrop-blur-sm border-b border-grok-border">
@@ -14,7 +16,8 @@ const Header = () => {
           variant="ghost" 
           size="icon" 
           className="mr-4 text-grok-foreground hover:bg-grok-accent"
-          onClick={() => setMenuOpen(!menuOpen)}
+          onClick={toggleSidebar}
+          aria-label={open ? "Close sidebar" : "Open sidebar"}
         >
           <Menu className="h-5 w-5" />
         </Button>

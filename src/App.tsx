@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { ChatSidebar } from "@/components/ChatSidebar";
+import Header from "./components/Header";
 import Index from "./pages/Index";
 import PDFView from "./pages/PDFView";
 import NotFound from "./pages/NotFound";
@@ -18,10 +19,11 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <SidebarProvider defaultOpen={true}>
+        <SidebarProvider defaultOpen={false}>
           <div className="flex min-h-screen w-full">
             <ChatSidebar />
-            <main className="flex-1">
+            <main className="flex-1 pt-16">
+              <Header />
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/pdf/:id" element={<PDFView />} />

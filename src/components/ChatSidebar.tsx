@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
@@ -10,12 +11,11 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarTrigger,
   SidebarRail,
   useSidebar,
 } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
-import { Plus, MessageSquare, Trash, PanelLeftClose, PanelLeft } from 'lucide-react';
+import { Plus, MessageSquare, Trash } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { v4 as uuidv4 } from 'uuid';
@@ -26,7 +26,7 @@ export function ChatSidebar() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { state, open, setOpen, toggleSidebar } = useSidebar();
+  const { state, open, setOpen } = useSidebar();
   
   useEffect(() => {
     fetchChats();
@@ -151,17 +151,6 @@ export function ChatSidebar() {
         <div className="flex items-center">
           <h2 className="text-lg font-semibold">ResearchNest</h2>
         </div>
-        <div className="flex items-center gap-2">
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={toggleSidebar} 
-            className="md:hidden"
-            title="Toggle sidebar"
-          >
-            {state === "expanded" ? <PanelLeftClose className="h-5 w-5" /> : <PanelLeft className="h-5 w-5" />}
-          </Button>
-        </div>
       </SidebarHeader>
       
       <SidebarContent>
@@ -217,15 +206,6 @@ export function ChatSidebar() {
           <div className="text-xs text-muted-foreground">
             ResearchNest v1.0
           </div>
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={toggleSidebar}
-            className="hidden md:flex"
-            title={state === "expanded" ? "Collapse sidebar" : "Expand sidebar"}
-          >
-            {state === "expanded" ? <PanelLeftClose className="h-4 w-4" /> : <PanelLeft className="h-4 w-4" />}
-          </Button>
         </div>
       </SidebarFooter>
       
