@@ -18,7 +18,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <SidebarProvider>
+        <SidebarProvider defaultOpen={true}>
           <div className="flex min-h-screen w-full">
             <ChatSidebar />
             <main className="flex-1">

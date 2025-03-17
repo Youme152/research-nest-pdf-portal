@@ -12,9 +12,11 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarTrigger,
+  SidebarRail,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import { Button } from '@/components/ui/button';
-import { Plus, MessageSquare, Trash } from 'lucide-react';
+import { Plus, MessageSquare, Trash, PanelLeftClose, PanelLeft } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import { v4 as uuidv4 } from 'uuid';
@@ -25,6 +27,7 @@ export function ChatSidebar() {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { state, toggleSidebar } = useSidebar();
   
   useEffect(() => {
     fetchChats();
@@ -147,8 +150,21 @@ export function ChatSidebar() {
   return (
     <Sidebar>
       <SidebarHeader className="flex justify-between items-center p-4">
-        <h2 className="text-lg font-semibold">ResearchNest</h2>
-        <SidebarTrigger className="md:hidden" />
+        <div className="flex items-center">
+          <h2 className="text-lg font-semibold">ResearchNest</h2>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={toggleSidebar} 
+            className="md:hidden"
+            title="Toggle sidebar"
+          >
+            {state === "expanded" ? <PanelLeftClose className="h-5 w-5" /> : <PanelLeft className="h-5 w-5" />}
+          </Button>
+          <SidebarTrigger className="md:hidden" />
+        </div>
       </SidebarHeader>
       
       <SidebarContent>
@@ -197,10 +213,24 @@ export function ChatSidebar() {
       </SidebarContent>
       
       <SidebarFooter className="p-4">
-        <div className="text-xs text-muted-foreground">
-          ResearchNest v1.0
+        <div className="flex justify-between items-center">
+          <div className="text-xs text-muted-foreground">
+            ResearchNest v1.0
+          </div>
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={toggleSidebar}
+            className="hidden md:flex"
+            title={state === "expanded" ? "Collapse sidebar" : "Expand sidebar"}
+          >
+            {state === "expanded" ? <PanelLeftClose className="h-4 w-4" /> : <PanelLeft className="h-4 w-4" />}
+          </Button>
         </div>
       </SidebarFooter>
+      
+      {/* Add the rail that allows clicking on the edge to toggle sidebar */}
+      <SidebarRail />
     </Sidebar>
   );
 }
