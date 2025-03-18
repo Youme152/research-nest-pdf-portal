@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import SearchBar from '@/components/SearchBar';
 import ResearchModes from '@/components/ResearchModes';
@@ -53,6 +54,14 @@ const MOCK_PDFS: PDFDocument[] = [
 
 const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || '/api/research';
 const SUPABASE_ENDPOINT = "https://zwwofphqttojlgoefhzz.functions.supabase.co/webhook-receiver";
+
+// Sample categories for demo purposes
+const SAMPLE_CATEGORIES = [
+  ['zero-waste', 'low-impact', 'biodegradable'],
+  ['women-owned', 'black-owned', 'indigenous-owned'],
+  ['lgbtq-owned', 'give-back', 'ethical'],
+  ['vegan', 'cruelty-free', 'recycled']
+];
 
 const Index = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -153,11 +162,15 @@ const Index = () => {
         setTimeout(() => {
           setSearchProgress(100);
           
+          // Add random categories for demo purposes
+          const randomCategorySet = SAMPLE_CATEGORIES[Math.floor(Math.random() * SAMPLE_CATEGORIES.length)];
+          
           const response: Message = {
             id: uuidv4(),
             content: data.content || "I couldn't find specific information on that topic.",
             role: 'assistant',
-            timestamp: new Date()
+            timestamp: new Date(),
+            categories: randomCategorySet
           };
           
           setMessages(prev => [...prev, response]);
@@ -184,11 +197,15 @@ const Index = () => {
         setSearchProgress(100);
         
         setTimeout(() => {
+          // Add random categories for demo purposes
+          const randomCategorySet = SAMPLE_CATEGORIES[Math.floor(Math.random() * SAMPLE_CATEGORIES.length)];
+          
           const response: Message = {
             id: uuidv4(),
             content: generateMockResponse(query, mode),
             role: 'assistant',
-            timestamp: new Date()
+            timestamp: new Date(),
+            categories: randomCategorySet
           };
           
           setMessages(prev => [...prev, response]);
@@ -236,6 +253,9 @@ const Index = () => {
                 <h1 className="text-4xl md:text-5xl font-playfair text-yoga-charcoal font-medium">
                   Welcome to <span className="text-yoga-peach">ORA-1</span> Research
                 </h1>
+                <p className="mt-4 text-lg md:text-xl font-playfair text-yoga-charcoal italic">
+                  Use your <span className="font-semibold">purchasing power</span> for <span className="font-semibold">positive change</span>.
+                </p>
               </div>
               
               <div className="max-w-[650px] mx-auto px-4">
