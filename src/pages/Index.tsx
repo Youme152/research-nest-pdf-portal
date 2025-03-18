@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import SearchBar from '@/components/SearchBar';
 import ResearchModes from '@/components/ResearchModes';
@@ -67,19 +66,7 @@ const Index = () => {
   });
   const [pdfResults, setPdfResults] = useState<PDFDocument[]>([]);
   const [selectedPDF, setSelectedPDF] = useState<PDFDocument | null>(null);
-  const [greeting, setGreeting] = useState('');
   const [isConversationStarted, setIsConversationStarted] = useState(false);
-
-  useEffect(() => {
-    const hour = new Date().getHours();
-    if (hour >= 5 && hour < 12) {
-      setGreeting('Good morning');
-    } else if (hour >= 12 && hour < 18) {
-      setGreeting('Good afternoon');
-    } else {
-      setGreeting('Good evening');
-    }
-  }, []);
 
   useEffect(() => {
     if (isSearching) {
@@ -237,17 +224,18 @@ const Index = () => {
 
   const handleSelectPDF = (pdf: PDFDocument | null) => {
     setSelectedPDF(pdf);
-    // No longer need to navigate to a separate page
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-grok text-grok-foreground overflow-y-auto">
+    <div className="min-h-screen flex flex-col bg-grok text-grok-foreground">
       <main className="flex-1 h-full">
         <div className="h-full">
           {!isConversationStarted && (
             <>
               <div className="text-center pt-36 mb-10 animate-fade-in-up">
-                <h2 className="text-4xl font-semibold">{greeting}, Josh.</h2>
+                <h1 className="text-4xl md:text-5xl font-playfair text-yoga-charcoal font-medium">
+                  Welcome to <span className="text-yoga-peach">ORA-1</span> Research
+                </h1>
               </div>
               
               <div className="max-w-[650px] mx-auto px-4">
