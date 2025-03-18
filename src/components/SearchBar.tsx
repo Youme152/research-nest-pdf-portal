@@ -25,15 +25,15 @@ const SearchBar = ({ onSearch, selectedMode }: SearchBarProps) => {
       className="w-full mx-auto search-appear"
     >
       <div className="relative group">
-        <div className="absolute inset-0 bg-gradient-to-r from-yoga-sage/10 to-yoga-peach/10 rounded-xl blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-gray-800/20 to-gray-700/20 rounded-xl blur opacity-0 group-hover:opacity-30 transition-opacity duration-300"></div>
         
-        <div className="relative flex items-center bg-white rounded-xl p-3 border border-grok-border transition-all shadow-sm">
+        <div className="relative flex items-center bg-[#222222] rounded-xl p-3 border border-grok-border transition-all shadow-lg">
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="What do you want to know?"
-            className="flex-1 bg-transparent border-none outline-none text-grok-foreground placeholder:text-grok-muted-foreground text-lg font-sans"
+            className="flex-1 bg-transparent border-none outline-none text-grok-foreground placeholder:text-grok-muted-foreground text-lg"
           />
           
           <div className="flex items-center space-x-2 pl-2">
@@ -46,7 +46,7 @@ const SearchBar = ({ onSearch, selectedMode }: SearchBarProps) => {
               <Paperclip className="h-5 w-5" />
             </Button>
             
-            <div className="flex items-center gap-2 px-3 py-1.5 bg-yoga-peach/10 text-yoga-peach rounded-lg mr-1">
+            <div className="flex items-center gap-2 px-3 py-1.5 bg-[#333333] rounded-lg mr-1">
               <span className="text-sm font-medium">{selectedMode.name}</span>
             </div>
             
@@ -54,7 +54,7 @@ const SearchBar = ({ onSearch, selectedMode }: SearchBarProps) => {
               type="submit" 
               variant="ghost" 
               size="icon" 
-              className="rounded-full bg-yoga-peach hover:bg-yoga-terracotta flex items-center justify-center text-white"
+              className="rounded-full bg-[#333333] hover:bg-[#444444] flex items-center justify-center"
               disabled={!query.trim()}
             >
               <ArrowUp className="h-5 w-5" />

@@ -1,3 +1,4 @@
+
 export interface ResearchMode {
   id: string;
   name: string;
@@ -20,9 +21,8 @@ export interface PDFDocument {
 export interface Message {
   id: string;
   content: string;
-  role: 'user' | 'assistant' | 'system';
+  role: 'user' | 'assistant';
   timestamp: Date;
-  categories?: string[];
 }
 
 export interface Chat {
