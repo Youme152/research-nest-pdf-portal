@@ -3,7 +3,7 @@ import React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { 
   Recycle, Leaf, Heart, BarChart, Globe, Award, 
-  ShieldCheck, Users, Sparkles, Paw 
+  ShieldCheck, Users, Sparkles
 } from 'lucide-react';
 
 type CategoryType = 
@@ -95,7 +95,7 @@ const getCategoryConfig = (category: CategoryType) => {
       color: 'bg-[#C2F87A] text-[#365811] hover:bg-[#C2F87A]/90'
     },
     'cruelty-free': { 
-      icon: <Paw className="h-3.5 w-3.5 mr-1" />,
+      icon: <Leaf className="h-3.5 w-3.5 mr-1" />,
       label: 'CRUELTY-FREE',
       color: 'bg-[#FFE079] text-[#7A5908] hover:bg-[#FFE079]/90'
     }
