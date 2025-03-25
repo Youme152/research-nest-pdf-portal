@@ -28,7 +28,7 @@ const Chat = ({
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, selectedPDF]);
+  }, [messages]);
 
   const formatTime = (date: Date) => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -148,21 +148,17 @@ const Chat = ({
               </div>
             )}
             
-            {/* PDF Viewer inline */}
-            {selectedPDF && (
-              <div className="mt-6 mb-8 w-full">
-                <PDFViewer 
-                  document={selectedPDF} 
-                  onClose={() => onSelectPDF(null)} 
-                  embedded={true}
-                />
-              </div>
-            )}
-            
             <div ref={messagesEndRef} />
           </div>
         )}
       </div>
+      
+      {selectedPDF && (
+        <PDFViewer 
+          document={selectedPDF} 
+          onClose={() => onSelectPDF(null)} 
+        />
+      )}
     </div>
   );
 };

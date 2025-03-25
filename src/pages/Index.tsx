@@ -235,11 +235,6 @@ const Index = () => {
     handleSearch(message, selectedMode.id);
   };
 
-  const handleSelectPDF = (pdf: PDFDocument | null) => {
-    setSelectedPDF(pdf);
-    // No longer need to navigate to a separate page
-  };
-
   return (
     <div className="min-h-screen flex flex-col bg-grok text-grok-foreground overflow-y-auto">
       <main className="flex-1 h-full">
@@ -284,7 +279,7 @@ const Index = () => {
               pdfResults={pdfResults}
               isLoading={isSearching}
               selectedPDF={selectedPDF}
-              onSelectPDF={handleSelectPDF}
+              onSelectPDF={setSelectedPDF}
               onSendMessage={handleSendMessage}
             />
           </div>
