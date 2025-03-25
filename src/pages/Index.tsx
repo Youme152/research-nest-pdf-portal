@@ -58,6 +58,9 @@ const WELCOME_MESSAGE: Message = {
   timestamp: new Date()
 };
 
+const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || '/api/research';
+const SUPABASE_ENDPOINT = "https://zwwofphqttojlgoefhzz.functions.supabase.co/webhook-receiver";
+
 const Index = () => {
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
   const [isSearching, setIsSearching] = useState(false);
@@ -121,26 +124,96 @@ const Index = () => {
         description: "Analyzing the most relevant information...",
       });
     }
-    
-    setTimeout(() => {
-      setSearchProgress(100);
+
+    try {
+      let progressInterval = setInterval(() => {
+        setSearchProgress(prev => Math.min(prev + 5, 90));
+      }, 300);
+
+      let apiResponse;
+      try {
+        apiResponse = await fetch(API_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            query,
+            mode,
+          }),
+        });
+      } catch (error) {
+        console.log("Primary API unavailable, falling back to Supabase:", error);
+        apiResponse = await fetch(SUPABASE_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-webhook-source': 'research-ui',
+          },
+          body: JSON.stringify({
+            query,
+            mode,
+            requestTime: new Date().toISOString()
+          }),
+        });
+      }
+
+      clearInterval(progressInterval);
+      setSearchProgress(95);
+
+      if (apiResponse.ok) {
+        const data = await apiResponse.json();
+        
+        setTimeout(() => {
+          setSearchProgress(100);
+          
+          const response: Message = {
+            id: uuidv4(),
+            content: data.content || "I couldn't find specific information on that topic.",
+            role: 'assistant',
+            timestamp: new Date()
+          };
+          
+          setMessages(prev => [...prev, response]);
+          setIsSearching(false);
+          
+          if (mode === 'deep-search' && data.documents) {
+            setPdfResults(data.documents);
+          } else if (mode === 'deep-search') {
+            setPdfResults(MOCK_PDFS);
+          }
+        }, 500);
+      } else {
+        throw new Error('Failed to get response from API');
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      toast({
+        title: "Connection Error",
+        description: "Couldn't connect to the research API. Using fallback data instead.",
+        variant: "destructive",
+      });
       
       setTimeout(() => {
-        const response: Message = {
-          id: uuidv4(),
-          content: generateMockResponse(query, mode),
-          role: 'assistant',
-          timestamp: new Date()
-        };
+        setSearchProgress(100);
         
-        setMessages(prev => [...prev, response]);
-        setIsSearching(false);
-        
-        if (mode === 'deep-search') {
-          setPdfResults(MOCK_PDFS);
-        }
-      }, 500);
-    }, 1500);
+        setTimeout(() => {
+          const response: Message = {
+            id: uuidv4(),
+            content: generateMockResponse(query, mode),
+            role: 'assistant',
+            timestamp: new Date()
+          };
+          
+          setMessages(prev => [...prev, response]);
+          setIsSearching(false);
+          
+          if (mode === 'deep-search') {
+            setPdfResults(MOCK_PDFS);
+          }
+        }, 500);
+      }, 1500);
+    }
   };
 
   const generateMockResponse = (query: string, mode: string) => {
