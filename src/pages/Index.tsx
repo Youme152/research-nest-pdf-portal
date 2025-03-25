@@ -1,9 +1,8 @@
-
 import { useState, useEffect } from 'react';
+import Header from '@/components/Header';
 import SearchBar from '@/components/SearchBar';
 import ResearchModes from '@/components/ResearchModes';
 import Chat from '@/components/Chat';
-import ChatInput from '@/components/ChatInput';
 import { Message, ResearchMode, PDFDocument } from '@/lib/types';
 import { v4 as uuidv4 } from 'uuid';
 import { Progress } from '@/components/ui/progress';
@@ -52,11 +51,15 @@ const MOCK_PDFS: PDFDocument[] = [
   }
 ];
 
-const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || '/api/research';
-const SUPABASE_ENDPOINT = "https://zwwofphqttojlgoefhzz.functions.supabase.co/webhook-receiver";
+const WELCOME_MESSAGE: Message = {
+  id: uuidv4(),
+  content: 'Good evening. How can I help you today?',
+  role: 'assistant',
+  timestamp: new Date()
+};
 
 const Index = () => {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
   const [isSearching, setIsSearching] = useState(false);
   const [searchProgress, setSearchProgress] = useState(0);
   const [selectedMode, setSelectedMode] = useState<ResearchMode>({
@@ -67,8 +70,7 @@ const Index = () => {
   });
   const [pdfResults, setPdfResults] = useState<PDFDocument[]>([]);
   const [selectedPDF, setSelectedPDF] = useState<PDFDocument | null>(null);
-  const [greeting, setGreeting] = useState('');
-  const [isConversationStarted, setIsConversationStarted] = useState(false);
+  const [greeting, setGreeting] = useState('Good evening');
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -100,17 +102,13 @@ const Index = () => {
   }, [isSearching]);
 
   const handleSearch = async (query: string, mode: string) => {
-    if (!isConversationStarted) {
-      setIsConversationStarted(true);
-    }
-    
     const userMessage: Message = {
       id: uuidv4(),
       content: query,
       role: 'user',
       timestamp: new Date()
     };
-    setMessages(prev => [...prev, userMessage]);
+    setMessages([...messages, userMessage]);
     
     setIsSearching(true);
     setPdfResults([]);
@@ -123,96 +121,26 @@ const Index = () => {
         description: "Analyzing the most relevant information...",
       });
     }
-
-    try {
-      let progressInterval = setInterval(() => {
-        setSearchProgress(prev => Math.min(prev + 5, 90));
-      }, 300);
-
-      let apiResponse;
-      try {
-        apiResponse = await fetch(API_ENDPOINT, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            query,
-            mode,
-          }),
-        });
-      } catch (error) {
-        console.log("Primary API unavailable, falling back to Supabase:", error);
-        apiResponse = await fetch(SUPABASE_ENDPOINT, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-webhook-source': 'research-ui',
-          },
-          body: JSON.stringify({
-            query,
-            mode,
-            requestTime: new Date().toISOString()
-          }),
-        });
-      }
-
-      clearInterval(progressInterval);
-      setSearchProgress(95);
-
-      if (apiResponse.ok) {
-        const data = await apiResponse.json();
-        
-        setTimeout(() => {
-          setSearchProgress(100);
-          
-          const response: Message = {
-            id: uuidv4(),
-            content: data.content || "I couldn't find specific information on that topic.",
-            role: 'assistant',
-            timestamp: new Date()
-          };
-          
-          setMessages(prev => [...prev, response]);
-          setIsSearching(false);
-          
-          if (mode === 'deep-search' && data.documents) {
-            setPdfResults(data.documents);
-          } else if (mode === 'deep-search') {
-            setPdfResults(MOCK_PDFS);
-          }
-        }, 500);
-      } else {
-        throw new Error('Failed to get response from API');
-      }
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      toast({
-        title: "Connection Error",
-        description: "Couldn't connect to the research API. Using fallback data instead.",
-        variant: "destructive",
-      });
+    
+    setTimeout(() => {
+      setSearchProgress(100);
       
       setTimeout(() => {
-        setSearchProgress(100);
+        const response: Message = {
+          id: uuidv4(),
+          content: generateMockResponse(query, mode),
+          role: 'assistant',
+          timestamp: new Date()
+        };
         
-        setTimeout(() => {
-          const response: Message = {
-            id: uuidv4(),
-            content: generateMockResponse(query, mode),
-            role: 'assistant',
-            timestamp: new Date()
-          };
-          
-          setMessages(prev => [...prev, response]);
-          setIsSearching(false);
-          
-          if (mode === 'deep-search') {
-            setPdfResults(MOCK_PDFS);
-          }
-        }, 500);
-      }, 1500);
-    }
+        setMessages(prev => [...prev, response]);
+        setIsSearching(false);
+        
+        if (mode === 'deep-search') {
+          setPdfResults(MOCK_PDFS);
+        }
+      }, 500);
+    }, 1500);
   };
 
   const generateMockResponse = (query: string, mode: string) => {
@@ -231,38 +159,31 @@ const Index = () => {
     }
   };
 
-  const handleSendMessage = (message: string) => {
-    handleSearch(message, selectedMode.id);
-  };
-
   return (
-    <div className="min-h-screen flex flex-col bg-grok text-grok-foreground overflow-y-auto">
-      <main className="flex-1 h-full">
-        <div className="h-full">
-          {!isConversationStarted && (
-            <>
-              <div className="text-center pt-36 mb-10 animate-fade-in-up">
-                <h2 className="text-4xl font-semibold">{greeting}, Josh.</h2>
-              </div>
-              
-              <div className="max-w-[650px] mx-auto px-4">
-                <SearchBar 
-                  onSearch={handleSearch} 
-                  selectedMode={selectedMode}
-                />
-                
-                <div className="mt-8">
-                  <ResearchModes
-                    onSelectMode={setSelectedMode}
-                    selectedMode={selectedMode}
-                  />
-                </div>
-              </div>
-            </>
+    <div className="min-h-screen flex flex-col bg-grok text-grok-foreground">
+      <Header />
+      
+      <main className="flex-1 pt-16 pb-8 px-4">
+        <div className="max-w-5xl mx-auto pt-20 pb-10 flex flex-col items-center">
+          {messages.length === 1 && (
+            <div className="text-center mb-10 animate-fade-in-up">
+              <h2 className="text-3xl font-bold mb-3">{greeting}.</h2>
+              <p className="text-xl text-grok-muted-foreground">How can I help you today?</p>
+            </div>
           )}
           
-          {isSearching && isConversationStarted && (
-            <div className="w-full max-w-[650px] mx-auto mt-6 px-4 animate-fade-in">
+          <SearchBar 
+            onSearch={handleSearch} 
+            selectedMode={selectedMode}
+          />
+          
+          <ResearchModes
+            onSelectMode={setSelectedMode}
+            selectedMode={selectedMode}
+          />
+          
+          {isSearching && (
+            <div className="w-full max-w-3xl mt-6 px-4 animate-fade-in">
               <div className="flex items-center justify-between mb-2">
                 <p className="text-sm font-medium text-grok-muted-foreground">
                   {selectedMode.name === 'DeepSearch' ? 'Searching research databases...' : 'Analyzing information...'}
@@ -273,23 +194,13 @@ const Index = () => {
             </div>
           )}
           
-          <div className="pb-24">
-            <Chat 
-              messages={messages}
-              pdfResults={pdfResults}
-              isLoading={isSearching}
-              selectedPDF={selectedPDF}
-              onSelectPDF={setSelectedPDF}
-              onSendMessage={handleSendMessage}
-            />
-          </div>
-
-          {isConversationStarted && (
-            <ChatInput 
-              onSendMessage={handleSendMessage} 
-              isLoading={isSearching} 
-            />
-          )}
+          <Chat 
+            messages={messages.slice(messages.length > 1 ? 1 : 0)}
+            pdfResults={pdfResults}
+            isLoading={isSearching}
+            selectedPDF={selectedPDF}
+            onSelectPDF={setSelectedPDF}
+          />
         </div>
       </main>
     </div>
