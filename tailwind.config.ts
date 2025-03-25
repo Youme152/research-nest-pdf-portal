@@ -54,36 +54,23 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
 				grok: {
-					DEFAULT: '#F9F6F0', // Soft cream background
-					foreground: '#333333',
-					muted: '#E8E4DC', // Soft muted accent
-					'muted-foreground': '#6B6B6B',
-					accent: '#F2E9DF', // Soft beige accent
-					border: '#D8D3CA',
-					input: '#F2E9DF',
-					search: '#FFFFFF',
-					selected: 'rgba(217, 164, 149, 0.2)', // Soft peach selection
-					darkgray: '#444444',
-					button: '#D9A495' // Peach accent color
+					DEFAULT: '#131314',
+					foreground: '#FFFFFF',
+					muted: '#1E1E1F',
+					'muted-foreground': '#A1A1A1',
+					accent: '#2A2A2B',
+					border: '#333333',
+					input: '#2A2A2B',
+					search: '#222222',
+					selected: 'rgba(255, 255, 255, 0.1)',
+					darkgray: '#1A1A1A',
+					button: '#333333'
 				},
 				pdf: {
-					DEFAULT: '#F9F6F0',
-					header: '#F2E9DF',
-					border: '#D8D3CA',
-				},
-				yoga: {
-					peach: '#D9A495',
-					sage: '#B5C9B7',
-					cream: '#F9F6F0',
-					sand: '#E8E4DC',
-					charcoal: '#333333',
-					lavender: '#C8C6D7',
-					terracotta: '#D9847C'
+					DEFAULT: '#121212',
+					header: '#101010',
+					border: '#2A2A2B',
 				}
-			},
-			fontFamily: {
-				'playfair': ['Playfair Display', 'serif'],
-				'sans': ['DM Sans', 'sans-serif']
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

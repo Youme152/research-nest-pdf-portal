@@ -21,8 +21,8 @@ const Header = () => {
         >
           <Menu className="h-5 w-5" />
         </Button>
-        <h1 className="text-2xl font-medium font-playfair tracking-tight text-yoga-charcoal">
-          ORA<span className="text-yoga-peach">-1</span>
+        <h1 className="text-xl font-semibold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-300">
+          ORA -1
         </h1>
       </div>
 
@@ -33,9 +33,9 @@ const Header = () => {
         <Button variant="ghost" size="icon" className="text-grok-foreground hover:bg-grok-accent">
           <Settings className="h-5 w-5" />
         </Button>
-        <Avatar className="h-8 w-8 transition-all hover:ring-2 hover:ring-yoga-peach/20">
+        <Avatar className="h-8 w-8 transition-all hover:ring-2 hover:ring-white/20">
           <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback className="bg-yoga-peach text-white">CN</AvatarFallback>
+          <AvatarFallback className="bg-grok-accent text-grok-foreground">CN</AvatarFallback>
         </Avatar>
       </div>
     </header>

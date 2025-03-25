@@ -55,14 +55,6 @@ const MOCK_PDFS: PDFDocument[] = [
 const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || '/api/research';
 const SUPABASE_ENDPOINT = "https://zwwofphqttojlgoefhzz.functions.supabase.co/webhook-receiver";
 
-// Sample categories for demo purposes
-const SAMPLE_CATEGORIES = [
-  ['zero-waste', 'low-impact', 'biodegradable'],
-  ['women-owned', 'black-owned', 'indigenous-owned'],
-  ['lgbtq-owned', 'give-back', 'ethical'],
-  ['vegan', 'cruelty-free', 'recycled']
-];
-
 const Index = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isSearching, setIsSearching] = useState(false);
@@ -75,7 +67,19 @@ const Index = () => {
   });
   const [pdfResults, setPdfResults] = useState<PDFDocument[]>([]);
   const [selectedPDF, setSelectedPDF] = useState<PDFDocument | null>(null);
+  const [greeting, setGreeting] = useState('');
   const [isConversationStarted, setIsConversationStarted] = useState(false);
+
+  useEffect(() => {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) {
+      setGreeting('Good morning');
+    } else if (hour >= 12 && hour < 18) {
+      setGreeting('Good afternoon');
+    } else {
+      setGreeting('Good evening');
+    }
+  }, []);
 
   useEffect(() => {
     if (isSearching) {
@@ -162,15 +166,11 @@ const Index = () => {
         setTimeout(() => {
           setSearchProgress(100);
           
-          // Add random categories for demo purposes
-          const randomCategorySet = SAMPLE_CATEGORIES[Math.floor(Math.random() * SAMPLE_CATEGORIES.length)];
-          
           const response: Message = {
             id: uuidv4(),
             content: data.content || "I couldn't find specific information on that topic.",
             role: 'assistant',
-            timestamp: new Date(),
-            categories: randomCategorySet
+            timestamp: new Date()
           };
           
           setMessages(prev => [...prev, response]);
@@ -197,15 +197,11 @@ const Index = () => {
         setSearchProgress(100);
         
         setTimeout(() => {
-          // Add random categories for demo purposes
-          const randomCategorySet = SAMPLE_CATEGORIES[Math.floor(Math.random() * SAMPLE_CATEGORIES.length)];
-          
           const response: Message = {
             id: uuidv4(),
             content: generateMockResponse(query, mode),
             role: 'assistant',
-            timestamp: new Date(),
-            categories: randomCategorySet
+            timestamp: new Date()
           };
           
           setMessages(prev => [...prev, response]);
@@ -241,21 +237,17 @@ const Index = () => {
 
   const handleSelectPDF = (pdf: PDFDocument | null) => {
     setSelectedPDF(pdf);
+    // No longer need to navigate to a separate page
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-grok text-grok-foreground">
+    <div className="min-h-screen flex flex-col bg-grok text-grok-foreground overflow-y-auto">
       <main className="flex-1 h-full">
         <div className="h-full">
           {!isConversationStarted && (
             <>
               <div className="text-center pt-36 mb-10 animate-fade-in-up">
-                <h1 className="text-4xl md:text-5xl font-playfair text-yoga-charcoal font-medium">
-                  Welcome to <span className="text-yoga-peach">ORA-1</span> Research
-                </h1>
-                <p className="mt-4 text-lg md:text-xl font-playfair text-yoga-charcoal italic">
-                  Use your <span className="font-semibold">purchasing power</span> for <span className="font-semibold">positive change</span>.
-                </p>
+                <h2 className="text-4xl font-semibold">{greeting}, Josh.</h2>
               </div>
               
               <div className="max-w-[650px] mx-auto px-4">

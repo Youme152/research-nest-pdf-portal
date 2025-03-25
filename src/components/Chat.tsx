@@ -6,7 +6,6 @@ import { PDFDocument } from '@/lib/types';
 import PDFViewer from './PDFViewer';
 import { FileText, ThumbsUp, ThumbsDown, RefreshCw, Copy } from 'lucide-react';
 import ChatInput from './ChatInput';
-import CategoryBadge from './CategoryBadge';
 
 interface ChatProps {
   messages: Message[];
@@ -40,11 +39,11 @@ const Chat = ({
 
   return (
     <div className="flex flex-col h-full w-full max-w-[650px] mx-auto">
-      <div className={`flex-1 overflow-y-auto px-4 pt-4 pb-32 ${isConversationStarted ? '' : ''}`}>
+      <div className={`flex-1 overflow-y-auto px-4 pt-4 pb-20 ${isConversationStarted ? '' : ''}`}>
         {messages.length === 0 && !isLoading ? (
           <div className="h-full"></div>
         ) : (
-          <div className="space-y-14 animate-fade-in w-full">
+          <div className="space-y-10 animate-fade-in w-full">
             {messages.map((message) => (
               <div key={message.id} className="w-full">
                 <div className="flex items-start space-x-4">
@@ -61,31 +60,23 @@ const Chat = ({
                     </Avatar>
                   )}
                   
-                  <div className="flex-1 space-y-4">
-                    <div className="prose prose-invert max-w-none text-grok-foreground font-medium text-[15px]">
+                  <div className="flex-1 space-y-2">
+                    <div className="prose prose-invert max-w-none">
                       {message.content}
                     </div>
                     
-                    {message.role === 'assistant' && message.categories && (
-                      <div className="flex flex-wrap gap-2 mt-4">
-                        {message.categories.map((category, index) => (
-                          <CategoryBadge key={index} category={category} />
-                        ))}
-                      </div>
-                    )}
-                    
                     {message.role === 'assistant' && (
-                      <div className="flex items-center gap-2 mt-4">
-                        <button className="p-1.5 rounded-full hover:bg-gray-800 transition-colors">
+                      <div className="flex items-center gap-2 mt-3">
+                        <button className="p-1 rounded-full hover:bg-gray-800">
                           <RefreshCw size={16} />
                         </button>
-                        <button className="p-1.5 rounded-full hover:bg-gray-800 transition-colors">
+                        <button className="p-1 rounded-full hover:bg-gray-800">
                           <Copy size={16} />
                         </button>
-                        <button className="p-1.5 rounded-full hover:bg-gray-800 transition-colors">
+                        <button className="p-1 rounded-full hover:bg-gray-800">
                           <ThumbsUp size={16} />
                         </button>
-                        <button className="p-1.5 rounded-full hover:bg-gray-800 transition-colors">
+                        <button className="p-1 rounded-full hover:bg-gray-800">
                           <ThumbsDown size={16} />
                         </button>
                       </div>
@@ -95,7 +86,7 @@ const Chat = ({
                 
                 {/* PDF Results */}
                 {message.role === 'assistant' && pdfResults.length > 0 && (
-                  <div className="mt-8 ml-12">
+                  <div className="mt-6 ml-12">
                     <h4 className="text-sm font-medium mb-3">Research Documents</h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {pdfResults.map((pdf) => (
@@ -159,7 +150,7 @@ const Chat = ({
             
             {/* PDF Viewer inline */}
             {selectedPDF && (
-              <div className="mt-8 mb-8 w-full">
+              <div className="mt-6 mb-8 w-full">
                 <PDFViewer 
                   document={selectedPDF} 
                   onClose={() => onSelectPDF(null)} 
