@@ -44,7 +44,7 @@ const ChatInput = ({ onSendMessage, isLoading = false }: ChatInputProps) => {
             value={message}
             onChange={(e) => setMessage(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="How can Grok help?"
+            placeholder="How can I assist with ethical shopping today?"
             className="flex-1 bg-transparent border-none resize-none outline-none text-grok-foreground placeholder:text-grok-muted-foreground min-h-[20px] max-h-[200px]"
             rows={1}
             disabled={isLoading}
